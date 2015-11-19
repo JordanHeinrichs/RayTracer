@@ -1,0 +1,6 @@
+*.o
+moc_*
+Makefile*
+.tags*
+build/*
+.tmp

@@ -1,3 +1,4 @@
+#pragma once
 //---------------------------------------------------------------------------
 //
 // CPSC453 -- Introduction to Computer Graphics
@@ -11,8 +12,6 @@
 //
 //---------------------------------------------------------------------------
 
-#pragma once
-
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -21,29 +20,34 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+#define X_INDEX 0
+#define Y_INDEX 1
+#define Z_INDEX 2
+#define W_INDEX 3
+
 class Point2D
 {
 public:
     Point2D()
     {
-        v_[0] = 0.0;
-        v_[1] = 0.0;
+        v_[X_INDEX] = 0.0;
+        v_[Y_INDEX] = 0.0;
     }
     Point2D(double x, double y)
     {
-        v_[0] = x;
-        v_[1] = y;
+        v_[X_INDEX] = x;
+        v_[Y_INDEX] = y;
     }
     Point2D(const Point2D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
     }
 
     Point2D& operator =(const Point2D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
         return *this;
     }
 
@@ -65,33 +69,33 @@ class Point3D
 public:
     Point3D()
     {
-        v_[0] = 0.0;
-        v_[1] = 0.0;
-        v_[2] = 0.0;
+        v_[X_INDEX] = 0.0;
+        v_[Y_INDEX] = 0.0;
+        v_[Z_INDEX] = 0.0;
     }
     Point3D(double x, double y, double z)
     {
-        v_[0] = x;
-        v_[1] = y;
-        v_[2] = z;
+        v_[X_INDEX] = x;
+        v_[Y_INDEX] = y;
+        v_[Z_INDEX] = z;
     }
     Point3D(const Point3D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
-        v_[2] = other.v_[2];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
+        v_[Z_INDEX] = other.v_[Z_INDEX];
     }
 
     Point2D to2D() const
     {
-        return Point2D(v_[0], v_[1]);
+        return Point2D(v_[X_INDEX], v_[Y_INDEX]);
     }
 
     Point3D& operator =(const Point3D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
-        v_[2] = other.v_[2];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
+        v_[Z_INDEX] = other.v_[Z_INDEX];
         return *this;
     }
 
@@ -113,34 +117,34 @@ class Vector3D
 public:
     Vector3D()
     {
-        v_[0] = 0.0;
-        v_[1] = 0.0;
-        v_[2] = 0.0;
+        v_[X_INDEX] = 0.0;
+        v_[Y_INDEX] = 0.0;
+        v_[Z_INDEX] = 0.0;
     }
     Vector3D(double x, double y, double z)
     {
-        v_[0] = x;
-        v_[1] = y;
-        v_[2] = z;
+        v_[X_INDEX] = x;
+        v_[Y_INDEX] = y;
+        v_[Z_INDEX] = z;
     }
     Vector3D(const Vector3D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
-        v_[2] = other.v_[2];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
+        v_[Z_INDEX] = other.v_[Z_INDEX];
     }
     Vector3D(const Point2D& other)
     {
-        v_[0] = other[0];
-        v_[1] = other[1];
-        v_[2] = 1.0;
+        v_[X_INDEX] = other[X_INDEX];
+        v_[Y_INDEX] = other[Y_INDEX];
+        v_[Z_INDEX] = 1.0;
     }
 
     Vector3D& operator =(const Vector3D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
-        v_[2] = other.v_[2];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
+        v_[Z_INDEX] = other.v_[Z_INDEX];
         return *this;
     }
 
@@ -155,25 +159,25 @@ public:
     Vector3D operator +(const Vector3D& other)
     {
         return Vector3D(
-            v_[0] + other.v_[0],
-            v_[1] + other.v_[1],
-            v_[2] + other.v_[2]);
+            v_[X_INDEX] + other.v_[X_INDEX],
+            v_[Y_INDEX] + other.v_[Y_INDEX],
+            v_[Z_INDEX] + other.v_[Z_INDEX]);
     }
     Vector3D operator -(const Vector3D& other)
     {
         return Vector3D(
-            v_[0] - other.v_[0],
-            v_[1] - other.v_[1],
-            v_[2] - other.v_[2]);
+            v_[X_INDEX] - other.v_[X_INDEX],
+            v_[Y_INDEX] - other.v_[Y_INDEX],
+            v_[Z_INDEX] - other.v_[Z_INDEX]);
     }
     double dot(const Vector3D& other) const
     {
-        return v_[0]*other.v_[0] + v_[1]*other.v_[1] + v_[2]*other.v_[2];
+        return v_[X_INDEX]*other.v_[X_INDEX] + v_[Y_INDEX]*other.v_[Y_INDEX] + v_[Z_INDEX]*other.v_[Z_INDEX];
     }
 
     double length2() const
     {
-        return v_[0]*v_[0] + v_[1]*v_[1] + v_[2]*v_[2];
+        return v_[X_INDEX]*v_[X_INDEX] + v_[Y_INDEX]*v_[Y_INDEX] + v_[Z_INDEX]*v_[Z_INDEX];
     }
     double length() const
     {
@@ -185,14 +189,14 @@ public:
     Vector3D cross(const Vector3D& other) const
     {
         return Vector3D(
-            v_[1]*other[2] - v_[2]*other[1],
-            v_[2]*other[0] - v_[0]*other[2],
-            v_[0]*other[1] - v_[1]*other[0]);
+            v_[Y_INDEX]*other[Z_INDEX] - v_[Z_INDEX]*other[Y_INDEX],
+            v_[Z_INDEX]*other[X_INDEX] - v_[X_INDEX]*other[Z_INDEX],
+            v_[X_INDEX]*other[Y_INDEX] - v_[Y_INDEX]*other[X_INDEX]);
     }
 
     Point2D toPoint() const
     {
-        return Point2D(v_[0], v_[1]);
+        return Point2D(v_[X_INDEX], v_[Y_INDEX]);
     }
 
 private:
@@ -201,37 +205,37 @@ private:
 
 inline Vector3D operator *(double s, const Vector3D& v)
 {
-    return Vector3D(s*v[0], s*v[1], s*v[2]);
+    return Vector3D(s*v[X_INDEX], s*v[Y_INDEX], s*v[Z_INDEX]);
 }
 
 inline Vector3D operator +(const Vector3D& a, const Vector3D& b)
 {
-    return Vector3D(a[0]+b[0], a[1]+b[1], a[2]+b[2]);
+    return Vector3D(a[X_INDEX]+b[X_INDEX], a[Y_INDEX]+b[Y_INDEX], a[Z_INDEX]+b[Z_INDEX]);
 }
 
 inline Point3D operator +(const Point3D& a, const Vector3D& b)
 {
-    return Point3D(a[0]+b[0], a[1]+b[1], a[2]+b[2]);
+    return Point3D(a[X_INDEX]+b[X_INDEX], a[Y_INDEX]+b[Y_INDEX], a[Z_INDEX]+b[Z_INDEX]);
 }
 
 inline Vector3D operator -(const Point3D& a, const Point3D& b)
 {
-    return Vector3D(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+    return Vector3D(a[X_INDEX]-b[X_INDEX], a[Y_INDEX]-b[Y_INDEX], a[Z_INDEX]-b[Z_INDEX]);
 }
 
 inline Vector3D operator -(const Vector3D& a, const Vector3D& b)
 {
-    return Vector3D(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+    return Vector3D(a[X_INDEX]-b[X_INDEX], a[Y_INDEX]-b[Y_INDEX], a[Z_INDEX]-b[Z_INDEX]);
 }
 
 inline Vector3D operator -(const Vector3D& a)
 {
-    return Vector3D(-a[0], -a[1], -a[2]);
+    return Vector3D(-a[X_INDEX], -a[Y_INDEX], -a[Z_INDEX]);
 }
 
 inline Point3D operator -(const Point3D& a, const Vector3D& b)
 {
-    return Point3D(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+    return Point3D(a[X_INDEX]-b[X_INDEX], a[Y_INDEX]-b[Y_INDEX], a[Z_INDEX]-b[Z_INDEX]);
 }
 
 inline Vector3D cross(const Vector3D& a, const Vector3D& b)
@@ -241,17 +245,17 @@ inline Vector3D cross(const Vector3D& a, const Vector3D& b)
 
 inline std::ostream& operator <<(std::ostream& os, const Point2D& p)
 {
-    return os << "p<" << p[0] << "," << p[1] << ">";
+    return os << "p<" << p[X_INDEX] << "," << p[Y_INDEX] << ">";
 }
 
 inline std::ostream& operator <<(std::ostream& os, const Point3D& p)
 {
-    return os << "p<" << p[0] << "," << p[1] << "," << p[2] << ">";
+    return os << "p<" << p[X_INDEX] << "," << p[Y_INDEX] << "," << p[Z_INDEX] << ">";
 }
 
 inline std::ostream& operator <<(std::ostream& os, const Vector3D& v)
 {
-    return os << "v<" << v[0] << "," << v[1] << "," << v[2] << ">";
+    return os << "v<" << v[X_INDEX] << "," << v[Y_INDEX] << "," << v[Z_INDEX] << ">";
 }
 
 class Vector4D
@@ -259,39 +263,39 @@ class Vector4D
 public:
     Vector4D()
     {
-        v_[0] = 0.0;
-        v_[1] = 0.0;
-        v_[2] = 0.0;
-        v_[3] = 0.0;
+        v_[X_INDEX] = 0.0;
+        v_[Y_INDEX] = 0.0;
+        v_[Z_INDEX] = 0.0;
+        v_[W_INDEX] = 0.0;
     }
     Vector4D(double x, double y, double z, double w)
     {
-        v_[0] = x;
-        v_[1] = y;
-        v_[2] = z;
-        v_[3] = w;
+        v_[X_INDEX] = x;
+        v_[Y_INDEX] = y;
+        v_[Z_INDEX] = z;
+        v_[W_INDEX] = w;
     }
     Vector4D(const Vector4D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
-        v_[2] = other.v_[2];
-        v_[3] = other.v_[3];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
+        v_[Z_INDEX] = other.v_[Z_INDEX];
+        v_[W_INDEX] = other.v_[W_INDEX];
     }
     Vector4D(const Point3D& other)
     {
-        v_[0] = other[0];
-        v_[1] = other[1];
-        v_[2] = other[2];
-        v_[3] = 1.0;
+        v_[X_INDEX] = other[X_INDEX];
+        v_[Y_INDEX] = other[Y_INDEX];
+        v_[Z_INDEX] = other[Z_INDEX];
+        v_[W_INDEX] = 1.0;
     }
 
     Vector4D& operator =(const Vector4D& other)
     {
-        v_[0] = other.v_[0];
-        v_[1] = other.v_[1];
-        v_[2] = other.v_[2];
-        v_[3] = other.v_[3];
+        v_[X_INDEX] = other.v_[X_INDEX];
+        v_[Y_INDEX] = other.v_[Y_INDEX];
+        v_[Z_INDEX] = other.v_[Z_INDEX];
+        v_[W_INDEX] = other.v_[W_INDEX];
         return *this;
     }
 
@@ -306,22 +310,22 @@ public:
     Vector4D operator +(const Vector4D& other)
     {
         return Vector4D(
-            v_[0] + other.v_[0],
-            v_[1] + other.v_[1],
-            v_[2] + other.v_[2],
-            v_[3] + other.v_[3]);
+            v_[X_INDEX] + other.v_[X_INDEX],
+            v_[Y_INDEX] + other.v_[Y_INDEX],
+            v_[Z_INDEX] + other.v_[Z_INDEX],
+            v_[W_INDEX] + other.v_[W_INDEX]);
     }
     Vector4D operator -(const Vector4D& other)
     {
         return Vector4D(
-            v_[0] - other.v_[0],
-            v_[1] - other.v_[1],
-            v_[2] - other.v_[2],
-            v_[3] - other.v_[3]);
+            v_[X_INDEX] - other.v_[X_INDEX],
+            v_[Y_INDEX] - other.v_[Y_INDEX],
+            v_[Z_INDEX] - other.v_[Z_INDEX],
+            v_[W_INDEX] - other.v_[W_INDEX]);
     }
     double dot(const Vector4D& other) const
     {
-        return v_[0]*other.v_[0] + v_[1]*other.v_[1] + v_[2]*other.v_[2] + v_[3]*other.v_[3];
+        return v_[X_INDEX]*other.v_[X_INDEX] + v_[Y_INDEX]*other.v_[Y_INDEX] + v_[Z_INDEX]*other.v_[Z_INDEX] + v_[W_INDEX]*other.v_[W_INDEX];
     }
 
 private:
@@ -431,8 +435,8 @@ inline Matrix4x4 operator *(const Matrix4x4& a, const Matrix4x4& b)
 
         for(size_t j = 0; j < 4; ++j)
         {
-            ret[i][j] = row[0] * b[0][j] + row[1] * b[1][j] +
-                row[2] * b[2][j] + row[3] * b[3][j];
+            ret[i][j] = row[X_INDEX] * b[X_INDEX][j] + row[Y_INDEX] * b[Y_INDEX][j] +
+                row[Z_INDEX] * b[Z_INDEX][j] + row[3] * b[3][j];
         }
     }
 
@@ -442,43 +446,43 @@ inline Matrix4x4 operator *(const Matrix4x4& a, const Matrix4x4& b)
 inline Vector3D operator *(const Matrix4x4& M, const Vector3D& v)
 {
     return Vector3D(
-        v[0] * M[0][0] + v[1] * M[0][1] + v[2] * M[0][2],
-        v[0] * M[1][0] + v[1] * M[1][1] + v[2] * M[1][2],
-        v[0] * M[2][0] + v[1] * M[2][1] + v[2] * M[2][2]);
+        v[X_INDEX] * M[0][0] + v[Y_INDEX] * M[0][1] + v[Z_INDEX] * M[0][2],
+        v[X_INDEX] * M[1][0] + v[Y_INDEX] * M[1][1] + v[Z_INDEX] * M[1][2],
+        v[X_INDEX] * M[2][0] + v[Y_INDEX] * M[2][1] + v[Z_INDEX] * M[2][2]);
 }
 
 inline Vector4D operator *(const Matrix4x4& M, const Vector4D& v)
 {
     return Vector4D(
-        v[0] * M[0][0] + v[1] * M[0][1] + v[2] * M[0][2] + v[3] * M[0][3],
-        v[0] * M[1][0] + v[1] * M[1][1] + v[2] * M[1][2] + v[3] * M[1][3],
-        v[0] * M[2][0] + v[1] * M[2][1] + v[2] * M[2][2] + v[3] * M[2][3],
-        v[0] * M[3][0] + v[1] * M[3][1] + v[2] * M[3][2] + v[3] * M[3][3]);
+        v[X_INDEX] * M[0][0] + v[Y_INDEX] * M[0][1] + v[Z_INDEX] * M[0][2] + v[W_INDEX] * M[0][3],
+        v[X_INDEX] * M[1][0] + v[Y_INDEX] * M[1][1] + v[Z_INDEX] * M[1][2] + v[W_INDEX] * M[1][3],
+        v[X_INDEX] * M[2][0] + v[Y_INDEX] * M[2][1] + v[Z_INDEX] * M[2][2] + v[W_INDEX] * M[2][3],
+        v[X_INDEX] * M[3][0] + v[Y_INDEX] * M[3][1] + v[Z_INDEX] * M[3][2] + v[W_INDEX] * M[3][3]);
 }
 
 inline Vector4D operator *(double scaler, const Vector4D& v)
 {
-    return Vector4D(v[0] * scaler,
-        v[1] * scaler,
-        v[2] * scaler,
-        v[3] * scaler);
+    return Vector4D(v[X_INDEX] * scaler,
+        v[Y_INDEX] * scaler,
+        v[Z_INDEX] * scaler,
+        v[W_INDEX] * scaler);
 }
 
 
 inline Point3D operator *(const Matrix4x4& M, const Point3D& p)
 {
     return Point3D(
-     p[0] * M[0][0] + p[1] * M[0][1] + p[2] * M[0][2] + M[0][3],
-     p[0] * M[1][0] + p[1] * M[1][1] + p[2] * M[1][2] + M[1][3],
-     p[0] * M[2][0] + p[1] * M[2][1] + p[2] * M[2][2] + M[2][3]);
+     p[X_INDEX] * M[0][0] + p[Y_INDEX] * M[0][1] + p[Z_INDEX] * M[0][2] + M[0][3],
+     p[X_INDEX] * M[1][0] + p[Y_INDEX] * M[1][1] + p[Z_INDEX] * M[1][2] + M[1][2],
+     p[X_INDEX] * M[2][0] + p[Y_INDEX] * M[2][1] + p[Z_INDEX] * M[2][2] + M[2][3]);
 }
 
 inline Vector3D transNorm(const Matrix4x4& M, const Vector3D& n)
 {
     return Vector3D(
-        n[0] * M[0][0] + n[1] * M[1][0] + n[2] * M[2][0],
-        n[0] * M[0][1] + n[1] * M[1][1] + n[2] * M[2][1],
-        n[0] * M[0][2] + n[1] * M[1][2] + n[2] * M[2][2]);
+        n[X_INDEX] * M[0][0] + n[Y_INDEX] * M[1][0] + n[Z_INDEX] * M[2][0],
+        n[X_INDEX] * M[0][1] + n[Y_INDEX] * M[1][1] + n[Z_INDEX] * M[2][1],
+        n[X_INDEX] * M[0][2] + n[Y_INDEX] * M[1][2] + n[Z_INDEX] * M[2][2]);
 }
 
 inline std::ostream& operator <<(std::ostream& os, const Matrix4x4& M)

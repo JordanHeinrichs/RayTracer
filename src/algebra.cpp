@@ -13,65 +13,30 @@
 
 #include "algebra.h"
 
-double Vector3D::normalize()
+namespace
 {
-    double denom = 1.0;
-    double x = (v_[0] > 0.0) ? v_[0] : -v_[0];
-    double y = (v_[1] > 0.0) ? v_[1] : -v_[1];
-    double z = (v_[2] > 0.0) ? v_[2] : -v_[2];
+    const double EPSILON = 1e-7;
+}
 
-    if(x > y)
-    {
-        if(x > z)
-        {
-            if(1.0 + x > 1.0)
-            {
-                y = y / x;
-                z = z / x;
-                denom = 1.0 / (x * sqrt(1.0 + y*y + z*z));
-            }
-        }
-        else
-        { /* z > x > y */
-            if(1.0 + z > 1.0)
-            {
-                y = y / z;
-                x = x / z;
-                denom = 1.0 / (z * sqrt(1.0 + y*y + x*x));
-            }
-        }
-    }
-    else
-    {
-        if(y > z)
-        {
-            if(1.0 + y > 1.0)
-            {
-                z = z / y;
-                x = x / y;
-                denom = 1.0 / (y * sqrt(1.0 + z*z + x*x));
-            }
-        }
-        else
-        { /* x < y < z */
-            if(1.0 + z > 1.0)
-            {
-                y = y / z;
-                x = x / z;
-                denom = 1.0 / (z * sqrt(1.0 + y*y + x*x));
-            }
-        }
-    }
+void Vector3D::normalize()
+{
+    const double currentLength = length();
+    v_[X_INDEX] /= currentLength;
+    v_[Y_INDEX] /= currentLength;
+    v_[Z_INDEX] /= currentLength;
+}
 
-    if(1.0 + x + y + z > 1.0)
+void Vector4D::normalize()
+{
+    if (v_[W_INDEX] > EPSILON)
     {
-        v_[0] *= denom;
-        v_[1] *= denom;
-        v_[2] *= denom;
-        return 1.0 / denom;
+        printf("Error, can not normalize a point\n");
+        return;
     }
-
-    return 0.0;
+    const double currentLength = length();
+    v_[X_INDEX] /= currentLength;
+    v_[Y_INDEX] /= currentLength;
+    v_[Z_INDEX] /= currentLength;
 }
 
 /*

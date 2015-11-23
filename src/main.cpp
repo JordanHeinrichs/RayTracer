@@ -1,5 +1,20 @@
 #include <QImage>
 #include <QColor>
+#include "algebra.h"
+#include <Ray.h>
+#include <Sphere.h>
+
+namespace
+{
+    const Point3D CAMERA_LOCATION = Point3D(0, 0, 0);
+    const Point3D POINT_ON_VIEWPLANE = Point3D(0, 0, 5);
+    const double X_VIEWPORT_SIZE = 4.0;
+    const double Y_VIEWPORT_SIZE = 4.0;
+    const Point3D LOWER_VIEWPORT_POINT = Point3D(-2, -2, POINT_ON_VIEWPLANE[Z_INDEX]);
+    const Point3D UPPER_VIEWPORT_POINT = Point3D(2, 2, POINT_ON_VIEWPLANE[Z_INDEX]);
+}
+
+Point3D getPointOnViewplaneFromPixel(int x, int y, int width, int height);
 
 int main(int argc, char *argv[])
 {
@@ -9,8 +24,10 @@ int main(int argc, char *argv[])
 
     // image width and height
     // TODO: prompt user on command line for dimensions
-    int width = 200;
-    int height = 200;
+    int width = 500;
+    int height = 500;
+
+    Sphere sphere(Point3D(0, 0, 10), 3);
 
     // create new image
     QImage image(width, height, QImage::Format_RGB32);
@@ -20,17 +37,17 @@ int main(int argc, char *argv[])
     {
         for (int y = 0; y < height; y++)
         {
+            Point3D pointAlongLine = getPointOnViewplaneFromPixel(x, y, width, height);
+            Ray ray(CAMERA_LOCATION, pointAlongLine);
+
             double r = 0.0;
             double g = 0.0;
             double b = 0.0;
-
-            // compute rgb values
-            // TODO: replace with values from ray tracing
-            if (x > width / 2 && y < height / 2) r = 1.0;
-            if (x < width / 2 && y > height / 2) g = 1.0;
-            if (x > width / 2 && y > height / 2) b = 1.0;
-
-            // set pixel value
+            bool intersected = sphere.doesRayIntersects(ray);
+            if (intersected)
+            {
+                r = 1.0;
+            }
             image.setPixel(x, y,
                 qRgb(r * 255, g * 255, b * 255));
         }
@@ -42,4 +59,11 @@ int main(int argc, char *argv[])
 
     // application successfully returned
     return 0;
+}
+
+Point3D getPointOnViewplaneFromPixel(int x, int y, int width, int height)
+{
+    const double xCoordinate = (static_cast<double>(x) / width - 0.5) * (X_VIEWPORT_SIZE);
+    const double yCoordinate = (static_cast<double>(y) / height - 0.5) * (Y_VIEWPORT_SIZE);
+    return Point3D(xCoordinate, yCoordinate, POINT_ON_VIEWPLANE[Z_INDEX]);
 }

@@ -184,7 +184,7 @@ public:
         return sqrt(length2());
     }
 
-    double normalize();
+    void normalize();
 
     Vector3D cross(const Vector3D& other) const
     {
@@ -289,6 +289,13 @@ public:
         v_[Z_INDEX] = other[Z_INDEX];
         v_[W_INDEX] = 1.0;
     }
+    Vector4D(const Vector3D& other)
+    {
+        v_[X_INDEX] = other[X_INDEX];
+        v_[Y_INDEX] = other[Y_INDEX];
+        v_[Z_INDEX] = other[Z_INDEX];
+        v_[W_INDEX] = 0.0;
+    }
 
     Vector4D& operator =(const Vector4D& other)
     {
@@ -323,14 +330,30 @@ public:
             v_[Z_INDEX] - other.v_[Z_INDEX],
             v_[W_INDEX] - other.v_[W_INDEX]);
     }
+    double length2() const
+    {
+        // This is the lenth of a Vector3D. W is not considered.
+        return v_[X_INDEX]*v_[X_INDEX] + v_[Y_INDEX]*v_[Y_INDEX] + v_[Z_INDEX]*v_[Z_INDEX];
+    }
+    double length() const
+    {
+        return sqrt(length2());
+    }
+
     double dot(const Vector4D& other) const
     {
         return v_[X_INDEX]*other.v_[X_INDEX] + v_[Y_INDEX]*other.v_[Y_INDEX] + v_[Z_INDEX]*other.v_[Z_INDEX] + v_[W_INDEX]*other.v_[W_INDEX];
     }
+    void normalize();
 
 private:
     double v_[4];
 };
+
+inline std::ostream& operator <<(std::ostream& os, const Vector4D& v)
+{
+    return os << "v<" << v[X_INDEX] << "," << v[Y_INDEX] << "," << v[Z_INDEX] << "," << v[W_INDEX] << ">";
+}
 
 class Matrix4x4
 {
@@ -458,6 +481,14 @@ inline Vector4D operator *(const Matrix4x4& M, const Vector4D& v)
         v[X_INDEX] * M[1][0] + v[Y_INDEX] * M[1][1] + v[Z_INDEX] * M[1][2] + v[W_INDEX] * M[1][3],
         v[X_INDEX] * M[2][0] + v[Y_INDEX] * M[2][1] + v[Z_INDEX] * M[2][2] + v[W_INDEX] * M[2][3],
         v[X_INDEX] * M[3][0] + v[Y_INDEX] * M[3][1] + v[Z_INDEX] * M[3][2] + v[W_INDEX] * M[3][3]);
+}
+
+inline Vector4D operator -(const Vector4D& v1, const Vector4D& v2)
+{
+    return Vector4D(v1[X_INDEX] - v2[X_INDEX],
+        v1[Y_INDEX] - v2[Y_INDEX],
+        v1[Z_INDEX] - v2[Z_INDEX],
+        v1[W_INDEX] - v2[W_INDEX]);
 }
 
 inline Vector4D operator *(double scaler, const Vector4D& v)

@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
     int width = 1000;
     int height = 1000;
 
-    std::shared_ptr<I_Object> sphere1(new Sphere(Point3D(0, 0, 10), 3, Material(Color(1, 0, 0), 0.3)));
+    Material sphere1Material(Color(1, 1, 1), Color(1, 0, 0), Color(1, 0, 0), 10.0);
+    std::shared_ptr<I_Object> sphere1(new Sphere(Point3D(0, 0, 10), 3, sphere1Material));
     std::list<std::shared_ptr<I_Object> > objects;
     objects.push_back(sphere1);
 

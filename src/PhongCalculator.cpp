@@ -39,6 +39,8 @@ Color PhongCalculator::calculate(const Point3D& point,
             Vector4D reflection = (2 * shadowRay.directionVector().dot(normal) * normal)
                 - shadowRay.directionVector();
             Vector4D v = viewPosition - point;
+            reflection.normalize();
+            v.normalize();
             color += object.material().specular() * light->specular()
                 * std::pow(std::max(reflection.dot(v), 0.0), object.material().shininess());
         }

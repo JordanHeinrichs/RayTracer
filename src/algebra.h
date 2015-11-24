@@ -5,7 +5,7 @@
 // Assignment 2
 //
 // Classes and functions for manipulating points, vectors, matrices,
-// and colours.  You probably won't need to modify anything in these
+// and colors.  You probably won't need to modify anything in these
 // two files.
 //
 // Adapted from CS488 A2 University of Waterloo Computer Graphics Lab / 2003
@@ -346,6 +346,11 @@ public:
     }
     void normalize();
 
+    Point3D toPoint() const
+    {
+        return Point3D(v_[X_INDEX], v_[Y_INDEX], v_[Z_INDEX]);
+    }
+
 private:
     double v_[4];
 };
@@ -528,31 +533,31 @@ inline std::ostream& operator <<(std::ostream& os, const Matrix4x4& M)
         << M[3][2] << " " << M[3][3] << "]";
 }
 
-class Colour
+class Color
 {
 public:
-    Colour()
+    Color()
         : r_(0.1)
         , g_(0.1)
         , b_(0.1)
     {}
-    Colour(double r, double g, double b)
+    Color(double r, double g, double b)
         : r_(r)
         , g_(g)
         , b_(b)
     {}
-    Colour(double c)
+    Color(double c)
         : r_(c)
         , g_(c)
         , b_(c)
     {}
-    Colour(const Colour& other)
+    Color(const Color& other)
         : r_(other.r_)
         , g_(other.g_)
         , b_(other.b_)
     {}
 
-    Colour& operator =(const Colour& other)
+    Color& operator =(const Color& other)
     {
         r_ = other.r_;
         g_ = other.g_;
@@ -560,15 +565,23 @@ public:
         return *this;
     }
 
-    double R() const
+    Color& operator +=(const Color& other)
+    {
+        r_ = std::max(0.0, std::min(r_ + other.r_, 1.0));
+        g_ = std::max(0.0, std::min(g_ + other.g_, 1.0));
+        b_ = std::max(0.0, std::min(b_ + other.b_, 1.0));
+        return *this;
+    }
+
+    double red() const
     {
         return r_;
     }
-    double G() const
+    double green() const
     {
         return g_;
     }
-    double B() const
+    double blue() const
     {
         return b_;
     }
@@ -579,22 +592,24 @@ private:
     double b_;
 };
 
-inline Colour operator *(double s, const Colour& a)
+inline Color operator *(double s, const Color& a)
 {
-    return Colour(s*a.R(), s*a.G(), s*a.B());
+    return Color(s*a.red(), s*a.green(), s*a.blue());
 }
 
-inline Colour operator *(const Colour& a, const Colour& b)
+inline Color operator *(const Color& a, const Color& b)
 {
-    return Colour(a.R()*b.R(), a.G()*b.G(), a.B()*b.B());
+    return Color(a.red()*b.red(), a.green()*b.green(), a.blue()*b.blue());
 }
 
-inline Colour operator +(const Colour& a, const Colour& b)
+inline Color operator +(const Color& a, const Color& b)
 {
-    return Colour(a.R()+b.R(), a.G()+b.G(), a.B()+b.B());
+    return Color(std::max(0.0, std::min(a.red() + b.red(), 1.0)),
+        std::max(0.0, std::min(a.green() + b.green(), 1.0)),
+        std::max(0.0, std::min(a.blue() + b.blue(), 1.0)));
 }
 
-inline std::ostream& operator <<(std::ostream& os, const Colour& c)
+inline std::ostream& operator <<(std::ostream& os, const Color& c)
 {
-    return os << "c<" << c.R() << "," << c.G() << "," << c.B() << ">";
+    return os << "c<" << c.red() << "," << c.green() << "," << c.blue() << ">";
 }

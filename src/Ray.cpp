@@ -6,10 +6,10 @@ Ray::Ray(const Point3D& startPoint, const Vector4D& directionVector)
 {
 }
 
-Ray::Ray(const Point3D& startPoint, const Point3D& pointAlongLine)
+Ray::Ray(const Point3D& startPoint, const Point3D& pointAlongRay)
 : startPoint_(startPoint)
 {
-    Vector4D directionalVector = pointAlongLine - startPoint;
+    Vector4D directionalVector = pointAlongRay - startPoint;
     directionalVector.normalize();
     directionVector_ = directionalVector;
 }
@@ -18,7 +18,7 @@ Ray::~Ray()
 {
 }
 
-Vector4D Ray::startPoint() const
+Point3D Ray::startPoint() const
 {
     return startPoint_;
 }
@@ -26,4 +26,9 @@ Vector4D Ray::startPoint() const
 Vector4D Ray::directionVector() const
 {
     return directionVector_;
+}
+
+Point3D Ray::pointAlongRay(double t) const
+{
+    return (Vector4D(startPoint_) + (t * directionVector_)).toPoint();
 }

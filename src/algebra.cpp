@@ -4,7 +4,7 @@
 // Assignment 2
 //
 // Classes and functions for manipulating points, vectors, matrices,
-// and colours. You probably won't need to modify anything in these
+// and colors. You probably won't need to modify anything in these
 // two files.
 //
 // Adapted from CS488 A2 University of Waterloo Computer Graphics Lab / 2003

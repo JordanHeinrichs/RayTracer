@@ -79,5 +79,6 @@ Point3D Scene::getPointOnViewplaneFromPixel(int xPixel, int yPixel) const
 {
     const double x = (static_cast<double>(xPixel) / width_ - 0.5) * (X_VIEWPORT_SIZE);
     const double y = (static_cast<double>(yPixel) / height_ - 0.5) * (Y_VIEWPORT_SIZE);
-    return Point3D(x, y, POINT_ON_VIEWPLANE[Z_INDEX]);
+    // Flip coordinates from +y down to +y up.
+    return Point3D(x, -y, POINT_ON_VIEWPLANE[Z_INDEX]);
 }

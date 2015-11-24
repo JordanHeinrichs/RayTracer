@@ -13,14 +13,14 @@ int main(int argc, char *argv[])
     Q_UNUSED(argv);
 
     // TODO: prompt user on command line for dimensions
-    int width = 100;
-    int height = 100;
+    int width = 1000;
+    int height = 1000;
 
     std::shared_ptr<I_Object> sphere1(new Sphere(Point3D(0, 0, 10), 3, Material(Color(1, 0, 0), 0.3)));
     std::list<std::shared_ptr<I_Object> > objects;
     objects.push_back(sphere1);
 
-    Light light(Point3D(0, 0, 0), Color(1, 1, 1), Color(1, 1, 1));
+    Light light(Point3D(2, 5, 0), Color(1, 1, 1), Color(1, 1, 1));
     std::list<Light> lights = {light};
 
     Scene scene(width, height, lights, objects);

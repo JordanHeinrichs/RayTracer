@@ -52,7 +52,7 @@ bool PhongCalculator::doesPointSeeLight(const Ray& shadowRay) const
         object != objects_.end(); ++object)
     {
         double t = 0.0;
-        if ((*object)->doesRayIntersect(shadowRay, t) && t > EPSILON)
+        if (!(*object)->doesRayIntersect(shadowRay, t) || t < EPSILON)
         {
             return true;
         }

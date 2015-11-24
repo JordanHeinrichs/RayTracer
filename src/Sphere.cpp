@@ -15,8 +15,7 @@ Sphere::~Sphere()
 
 bool Sphere::doesRayIntersect(const Ray& ray, double& t) const
 {
-    // D is the ray from the startPoint to the center of the sphere
-    Vector4D D = center_ - Vector4D(ray.startPoint());
+    Vector4D D = Vector4D(ray.startPoint()) - center_;
     double a = 1.0;
     double b = 2.0 * (ray.directionVector().dot(D));
     double c = D.dot(D) - std::pow(radius_, 2);
@@ -26,10 +25,10 @@ bool Sphere::doesRayIntersect(const Ray& ray, double& t) const
     {
         return false;
     }
-    double t1 = -(-b + std::sqrt(discriminant)) / 2.0;
-    double t2 = -(-b - std::sqrt(discriminant)) / 2.0;
+    double t1 = (-b + std::sqrt(discriminant)) / 2.0;
+    double t2 = (-b - std::sqrt(discriminant)) / 2.0;
 
-    if (t1 < t2 && t1 > 0)
+    if (t1 > 0 && t1 < t2)
     {
         t = t1;
         return true;

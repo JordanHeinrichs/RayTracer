@@ -504,7 +504,6 @@ inline Vector4D operator *(double scaler, const Vector4D& v)
         v[W_INDEX] * scaler);
 }
 
-
 inline Point3D operator *(const Matrix4x4& M, const Point3D& p)
 {
     return Point3D(

@@ -6,7 +6,7 @@
 
 namespace
 {
-    const double GLOBAL_AMBIENT_FACTOR = 0.3;
+    const double GLOBAL_AMBIENT_FACTOR = 0.1;
     const double EPSILON = 1e-5;
 }
 

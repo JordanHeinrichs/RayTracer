@@ -4,6 +4,7 @@
 class QImage;
 
 #include "algebra.h"
+class I_Object;
 class PhongCalculator;
 class Ray;
 class Scene;
@@ -18,6 +19,7 @@ public:
 
 private:
     Color trace(const Ray& ray, int depth) const;
+    Ray reflectionRay(const Ray& ray, const I_Object& object, const Point3D& point) const;
 
 private:
     const Scene& scene_;

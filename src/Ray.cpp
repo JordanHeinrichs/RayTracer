@@ -4,6 +4,7 @@ Ray::Ray(const Point3D& startPoint, const Vector4D& directionVector)
 : startPoint_(startPoint)
 , directionVector_(directionVector)
 {
+    directionVector_.normalize();
 }
 
 Ray::Ray(const Point3D& startPoint, const Point3D& pointAlongRay)

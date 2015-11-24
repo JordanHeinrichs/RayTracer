@@ -1,6 +1,7 @@
 #include <QImage>
 #include <QColor>
 
+#include "I_Object.h"
 #include "PhongCalculator.h"
 #include "Ray.h"
 #include "RayTracer.h"
@@ -9,7 +10,7 @@
 namespace
 {
     const Color BACKGROUND_COLOR = Color(0.2, 0.2, 0.2);
-    const int MAX_DEPTH = 1;
+    const int MAX_DEPTH = 3;
 }
 
 RayTracer::RayTracer(const Scene& scene)
@@ -54,6 +55,16 @@ Color RayTracer::trace(const Ray& ray, int depth) const
         return BACKGROUND_COLOR;
     }
 
-    Color localColor =  phongCalculator_->calculate(ray.pointAlongRay(t), *object, ray.startPoint());
-    return localColor;
+    const Point3D intersectPoint = ray.pointAlongRay(t);
+    Color localColor =  phongCalculator_->calculate(intersectPoint, *object, ray.startPoint());
+    Color reflectedColor = trace(reflectionRay(ray, *object, intersectPoint), depth + 1);
+    return localColor + reflectedColor;
+}
+
+Ray RayTracer::reflectionRay(const Ray& ray, const I_Object& object, const Point3D& point) const
+{
+    const Vector4D normal = object.normal(point);
+    Vector4D reflection = ray.directionVector() - (2 * ray.directionVector().dot(normal) * normal);
+    reflection.normalize();
+    return Ray(point, reflection);
 }

@@ -3,7 +3,7 @@ CONFIG += c++11 debug console
 
 INCLUDEPATH += .
 win32: QMAKE_CXXFLAGS += /WX
-!win32: QMAKE_CXXFLAGS += -Werror
+!win32: QMAKE_CXXFLAGS += -Werror -O3
 
 # Input
 HEADERS += *.h

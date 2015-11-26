@@ -39,9 +39,6 @@ Triangle::~Triangle()
 
 bool Triangle::doesRayIntersect(const Ray& ray, double& t) const
 {
-    Q_UNUSED(ray);
-    Q_UNUSED(t);
-
     const double a = normal_.dot(point1_ - ray.startPoint());
     const double b = normal_.dot(ray.directionVector());
 

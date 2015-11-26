@@ -19,4 +19,14 @@ private:
     const Point3D point2_;
     const Point3D point3_;
     const Material material_;
+
+    // precalculated information for efficiency
+    Vector4D normal_;
+    Vector4D u_;
+    Vector4D v_;
+
+    double dotUU_;
+    double dotUV_;
+    double dotVV_;
+    double intersectTestDenominator_;
 };

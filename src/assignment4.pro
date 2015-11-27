@@ -12,6 +12,10 @@ SOURCES += *.cpp
 DESTDIR = ../build
 TARGET = assignment4
 
+settings.path = ../build
+settings.files = sceneSpecificationRc
+INSTALLS += settings
+
 OBJECTS_DIR = ../.tmp/.obj
 MOC_DIR = ../.tmp/.moc
 RCC_DIR = ../.tmp/.rcc

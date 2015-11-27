@@ -2,22 +2,17 @@
 #include "Light.h"
 #include "Ray.h"
 #include "Scene.h"
+#include "SceneSettingReader.h"
 
-namespace
-{
-    const Point3D CAMERA_LOCATION = Point3D(0, 0, 0);
-    const Point3D POINT_ON_VIEWPLANE = Point3D(0, 0, 5);
-    const double X_VIEWPORT_SIZE = 4.0;
-    const double Y_VIEWPORT_SIZE = 3.0;
-}
-
-Scene::Scene(int width, int height,
-    const std::list<Light>& lights,
-    const std::list<std::shared_ptr<I_Object> >& objects)
-: width_(width)
-, height_(height)
-, lights_(lights)
-, objects_(objects)
+Scene::Scene(SceneSettingReader& settingsReader)
+: width_(settingsReader.pictureWidth())
+, height_(settingsReader.pictureHeight())
+, lights_(settingsReader.readLights())
+, objects_(settingsReader.readObjects())
+, cameraLocation_(settingsReader.cameraLocation())
+, viewportZLocation_(settingsReader.viewportZLocation())
+, viewportWidth_(settingsReader.viewportWidth())
+, viewportHeight_(settingsReader.viewportHeight())
 {
 }
 
@@ -28,7 +23,7 @@ Scene::~Scene()
 Ray Scene::generateCameraRay(int xPixel, int yPixel) const
 {
     Point3D pointAlongRay = getPointOnViewplaneFromPixel(xPixel, yPixel);
-    return Ray(CAMERA_LOCATION, pointAlongRay);
+    return Ray(cameraLocation_, pointAlongRay);
 }
 
 bool Scene::doesRayIntersect(const Ray& ray, double& t, I_Object*& object) const
@@ -77,8 +72,8 @@ const std::list<std::shared_ptr<I_Object> >& Scene::objects() const
 
 Point3D Scene::getPointOnViewplaneFromPixel(int xPixel, int yPixel) const
 {
-    const double x = (static_cast<double>(xPixel) / width_ - 0.5) * (X_VIEWPORT_SIZE);
-    const double y = (static_cast<double>(yPixel) / height_ - 0.5) * (Y_VIEWPORT_SIZE);
+    const double x = (static_cast<double>(xPixel) / width_ - 0.5) * (viewportWidth_);
+    const double y = (static_cast<double>(yPixel) / height_ - 0.5) * (viewportHeight_);
     // Flip coordinates from +y down to +y up.
-    return Point3D(x, -y, POINT_ON_VIEWPLANE[Z_INDEX]);
+    return Point3D(x, -y, viewportZLocation_);
 }

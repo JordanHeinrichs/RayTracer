@@ -6,13 +6,12 @@
 class I_Object;
 class Light;
 class Ray;
+class SceneSettingReader;
 
 class Scene
 {
 public:
-    Scene(int width, int height,
-        const std::list<Light>& lights,
-        const std::list<std::shared_ptr<I_Object> >& objects);
+    explicit Scene(SceneSettingReader& settingsReader);
     virtual ~Scene();
 
     Ray generateCameraRay(int xPixel, int yPixel) const;
@@ -32,4 +31,9 @@ private:
 
     std::list<Light> lights_;
     std::list<std::shared_ptr<I_Object> > objects_;
+
+    const Point3D cameraLocation_;
+    const double viewportZLocation_;
+    const double viewportWidth_;
+    const double viewportHeight_;
 };

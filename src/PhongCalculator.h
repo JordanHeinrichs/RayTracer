@@ -19,6 +19,7 @@ public:
 
 private:
     bool doesPointSeeLight(const Ray& shadowRay) const;
+    void haveNormalFaceViewPosition(Vector4D& normal, const Vector4D& viewVector) const;
 
 private:
     const std::list<Light>& lights_;

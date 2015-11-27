@@ -3,6 +3,7 @@
 #include <QColor>
 #include "algebra.h"
 #include "Light.h"
+#include "Quad.h"
 #include "RayTracer.h"
 #include "Scene.h"
 #include "Sphere.h"
@@ -29,11 +30,15 @@ int main(int argc, char *argv[])
     Material triangle1Material(Color(0.1, 0.1, 0.1), Color(0, 0, 1), Color(0.2, 0, 1), 1.0);
     std::shared_ptr<I_Object> triangle1(new Triangle(Point3D(0, 0, 8), Point3D(0, 1, 8), Point3D(1, 1, 8), triangle1Material));
 
+    Material quad1Material(Color(0.1, 0.1, 0.1), Color(1, 0, 0), Color(0.2, 0, 1), 1.0);
+    std::shared_ptr<I_Object> quad1(new Quad(Point3D(-4, 0, 15), Point3D(-1, 0, 15), Point3D(-1, 4, 15), Point3D(-4, 4, 15), quad1Material));
+
     std::list<std::shared_ptr<I_Object> > objects;
     objects.push_back(sphere1);
     objects.push_back(sphere2);
     objects.push_back(sphere3);
     objects.push_back(triangle1);
+    objects.push_back(quad1);
 
     Light light1(Point3D(5, 5, 0), Color(1, 1, 1), Color(1, 1, 1));
     Light light2(Point3D(-5, -7, 3), Color(0.5, 0.5, 0.5), Color(0.5, 0.5, 0.5));

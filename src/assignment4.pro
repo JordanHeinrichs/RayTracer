@@ -2,7 +2,7 @@ TEMPLATE = app
 CONFIG += c++11 debug console
 
 INCLUDEPATH += .
-win32: QMAKE_CXXFLAGS += /WX
+win32: QMAKE_CXXFLAGS += /WX /O2
 !win32: QMAKE_CXXFLAGS += -Werror -O3
 
 # Input

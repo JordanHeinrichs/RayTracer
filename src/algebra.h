@@ -330,6 +330,12 @@ public:
             v_[Z_INDEX] - other.v_[Z_INDEX],
             v_[W_INDEX] - other.v_[W_INDEX]);
     }
+    bool operator ==(const Vector4D& other) const;
+    inline bool operator !=(const Vector4D& other) const
+    {
+        return !(*this == other);
+    }
+
     double length2() const
     {
         // This is the lenth of a Vector3D. W is not considered.
@@ -358,6 +364,11 @@ private:
 inline std::ostream& operator <<(std::ostream& os, const Vector4D& v)
 {
     return os << "v<" << v[X_INDEX] << "," << v[Y_INDEX] << "," << v[Z_INDEX] << "," << v[W_INDEX] << ">";
+}
+
+inline Vector4D operator -(const Vector4D& a)
+{
+    return Vector4D(-a[X_INDEX], -a[Y_INDEX], -a[Z_INDEX], -a[W_INDEX]);
 }
 
 class Matrix4x4

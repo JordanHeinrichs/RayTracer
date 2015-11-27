@@ -26,7 +26,10 @@ Color PhongCalculator::calculate(const Point3D& point,
     const I_Object& object,
     const Point3D& viewPosition) const
 {
-    const Vector4D normal = object.normal(point);
+    Vector4D viewVector = viewPosition - point;
+    viewVector.normalize();
+    Vector4D normal = object.normal(point);
+    haveNormalFaceViewPosition(normal, viewVector);
 
     Color color = object.material().ambient() * GLOBAL_AMBIENT_FACTOR;
     for(std::list<Light>::const_iterator light = lights_.begin(); light != lights_.end(); ++light)
@@ -38,11 +41,9 @@ Color PhongCalculator::calculate(const Point3D& point,
                 * light->diffuse();
             Vector4D reflection = (2 * shadowRay.directionVector().dot(normal) * normal)
                 - shadowRay.directionVector();
-            Vector4D v = viewPosition - point;
             reflection.normalize();
-            v.normalize();
             color += object.material().specular() * light->specular()
-                * std::pow(std::max(reflection.dot(v), 0.0), object.material().shininess());
+                * std::pow(std::max(reflection.dot(viewVector), 0.0), object.material().shininess());
         }
     }
     return color;
@@ -60,4 +61,12 @@ bool PhongCalculator::doesPointSeeLight(const Ray& shadowRay) const
         }
     }
     return false;
+}
+
+void PhongCalculator::haveNormalFaceViewPosition(Vector4D& normal, const Vector4D& viewVector) const
+{
+    if (normal.dot(viewVector) < 0.0)
+    {
+        normal = -normal;
+    }
 }

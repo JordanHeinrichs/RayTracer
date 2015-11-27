@@ -39,6 +39,16 @@ void Vector4D::normalize()
     v_[Z_INDEX] /= currentLength;
 }
 
+bool Vector4D::operator ==(const Vector4D& other) const
+{
+    bool status = true;
+    status &= std::fabs(v_[X_INDEX] - other.v_[X_INDEX]) < EPSILON;
+    status &= std::fabs(v_[Y_INDEX] - other.v_[Y_INDEX]) < EPSILON;
+    status &= std::fabs(v_[Z_INDEX] - other.v_[Z_INDEX]) < EPSILON;
+    status &= std::fabs(v_[W_INDEX] - other.v_[W_INDEX]) < EPSILON;
+    return status;
+}
+
 /*
  * Define some helper functions for matrix inversion.
  */

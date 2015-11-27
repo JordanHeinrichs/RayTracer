@@ -8,7 +8,7 @@ namespace
     const Point3D CAMERA_LOCATION = Point3D(0, 0, 0);
     const Point3D POINT_ON_VIEWPLANE = Point3D(0, 0, 5);
     const double X_VIEWPORT_SIZE = 4.0;
-    const double Y_VIEWPORT_SIZE = 4.0;
+    const double Y_VIEWPORT_SIZE = 3.0;
 }
 
 Scene::Scene(int width, int height,

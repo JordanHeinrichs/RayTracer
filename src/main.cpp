@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     Q_UNUSED(argv);
 
     // TODO: prompt user on command line for dimensions
-    int width = 1000;
-    int height = 1000;
+    int width = 3840;
+    int height = 2160;
 
     Material sphere1Material(Color(1, 1, 1), Color(1, 0, 0), Color(1, 0, 0), 10.0);
     std::shared_ptr<I_Object> sphere1(new Sphere(Point3D(2, 0, 10), 1, sphere1Material));

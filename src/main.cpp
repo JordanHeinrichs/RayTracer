@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     Scene scene(settingsReader);
     RayTracer rayTracer(scene);
 
-    QImage image = rayTracer.generateImage();
+    auto image = rayTracer.generateImage();
     image.save(settingsReader.outputFilename());
 
     return 0;

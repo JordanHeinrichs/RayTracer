@@ -56,7 +56,7 @@ double SceneSettingReader::viewportZLocation()
 Point3D SceneSettingReader::cameraLocation()
 {
     settings_.beginGroup(CAMERA_LOCATION_GROUP);
-    const Point3D cameraLocation = readPoint();
+    const auto cameraLocation = readPoint();
     settings_.endGroup();
     return cameraLocation;
 }
@@ -130,7 +130,7 @@ Color SceneSettingReader::readColor() const
 I_Object* SceneSettingReader::readSphere()
 {
     settings_.beginGroup("center");
-    const Point3D center = readPoint();
+    const auto center = readPoint();
     settings_.endGroup();
     const double radius = settings_.value("radius").toDouble();
     return new Sphere(center, radius, readMaterial());
@@ -139,13 +139,13 @@ I_Object* SceneSettingReader::readSphere()
 I_Object* SceneSettingReader::readTriangle()
 {
     settings_.beginGroup("point1");
-    const Point3D point1 = readPoint();
+    const auto point1 = readPoint();
     settings_.endGroup();
     settings_.beginGroup("point2");
-    const Point3D point2 = readPoint();
+    const auto point2 = readPoint();
     settings_.endGroup();
     settings_.beginGroup("point3");
-    const Point3D point3 = readPoint();
+    const auto point3 = readPoint();
     settings_.endGroup();
 
     return new Triangle(point1, point2, point3, readMaterial());
@@ -154,16 +154,16 @@ I_Object* SceneSettingReader::readTriangle()
 I_Object* SceneSettingReader::readQuad()
 {
     settings_.beginGroup("point1");
-    const Point3D point1 = readPoint();
+    const auto point1 = readPoint();
     settings_.endGroup();
     settings_.beginGroup("point2");
-    const Point3D point2 = readPoint();
+    const auto point2 = readPoint();
     settings_.endGroup();
     settings_.beginGroup("point3");
-    const Point3D point3 = readPoint();
+    const auto point3 = readPoint();
     settings_.endGroup();
     settings_.beginGroup("point4");
-    const Point3D point4 = readPoint();
+    const auto point4 = readPoint();
     settings_.endGroup();
 
     return new Quad(point1, point2, point3, point4, readMaterial());

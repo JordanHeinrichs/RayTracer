@@ -218,6 +218,11 @@ inline Point3D operator +(const Point3D& a, const Vector3D& b)
     return Point3D(a[X_INDEX]+b[X_INDEX], a[Y_INDEX]+b[Y_INDEX], a[Z_INDEX]+b[Z_INDEX]);
 }
 
+inline Point3D operator +(const Point3D& a, const Point3D& b)
+{
+    return Point3D(a[X_INDEX]+b[X_INDEX], a[Y_INDEX]+b[Y_INDEX], a[Z_INDEX]+b[Z_INDEX]);
+}
+
 inline Vector3D operator -(const Point3D& a, const Point3D& b)
 {
     return Vector3D(a[X_INDEX]-b[X_INDEX], a[Y_INDEX]-b[Y_INDEX], a[Z_INDEX]-b[Z_INDEX]);

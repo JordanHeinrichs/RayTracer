@@ -131,6 +131,10 @@ objects/6/filename=tris.obj
 objects/6/center/x=0
 objects/6/center/y=0
 objects/6/center/z=7
+objects/6/xRotation=0
+objects/6/yRotation=180
+objects/6/zRotation=0
+
 objects/6/maxDimension=3.0
 
 

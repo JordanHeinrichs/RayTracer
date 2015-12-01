@@ -18,10 +18,24 @@ namespace
 
     const QColor FACE_LINE_COLOR = Qt::blue;
     const QColor VERTEX_LINE_COLOR = Qt::red;
+
+    double degToRad(double degree)
+    {
+        return degree * M_PI / 180;
+    }
 }
 
-ModelLoader::ModelLoader(const QString& filename, const Point3D& center, double maxDimension, const Material& material)
+ModelLoader::ModelLoader(const QString& filename,
+    const Point3D& center,
+    double maxDimension,
+    double xRotationDegree,
+    double yRotationDegree,
+    double zRotationDegree,
+    const Material& material)
 : center_(center)
+, xRotationDegree_(xRotationDegree)
+, yRotationDegree_(yRotationDegree)
+, zRotationDegree_(zRotationDegree)
 , material_(material)
 {
     if (!loadModel(filename))
@@ -89,19 +103,25 @@ void ModelLoader::scaleAndCenterModel(float maxDimension)
     const float yShift = (maxY + minY) / 2.0;
     const float zShift = (maxZ + minZ) / 2.0;
 
-    // Matrix4x4 xRotation = Matrix4x4(
-    //     Vector4D(1, 0, 0, 0),
-    //     Vector4D(0, cos(M_PI / 2.0), -sin(M_PI / 2.0), 0),
-    //     Vector4D(0, sin(M_PI / 2.0), cos(M_PI / 2.0), 0),
-    //     Vector4D(0, 0, 0, 1));
-
-    Matrix4x4 yRotation = Matrix4x4(
-        Vector4D(cos(M_PI), 0, sin(M_PI), 0),
-        Vector4D(0, 1, 0, 0),
-        Vector4D(-sin(M_PI), 0, cos(M_PI), 0),
+    Matrix4x4 xRotation = Matrix4x4(
+        Vector4D(1, 0, 0, 0),
+        Vector4D(0, cos(degToRad(xRotationDegree_)), -sin(degToRad(xRotationDegree_)), 0),
+        Vector4D(0, sin(degToRad(xRotationDegree_)), cos(degToRad(xRotationDegree_)), 0),
         Vector4D(0, 0, 0, 1));
 
-    Matrix4x4 rotationTransform = yRotation; // TODO: Add other rotations in...
+    Matrix4x4 yRotation = Matrix4x4(
+        Vector4D(cos(degToRad(yRotationDegree_)), 0, sin(degToRad(yRotationDegree_)), 0),
+        Vector4D(0, 1, 0, 0),
+        Vector4D(-sin(degToRad(yRotationDegree_)), 0, cos(degToRad(yRotationDegree_)), 0),
+        Vector4D(0, 0, 0, 1));
+
+    Matrix4x4 zRotation = Matrix4x4(
+        Vector4D(cos(degToRad(zRotationDegree_)), -sin(degToRad(zRotationDegree_)), 0, 0),
+        Vector4D(-sin(degToRad(zRotationDegree_)), cos(degToRad(zRotationDegree_)), 0, 0),
+        Vector4D(0, 0, 1, 0),
+        Vector4D(0, 0, 0, 1));
+
+    Matrix4x4 rotationTransform = zRotation * yRotation * xRotation;
 
     for (std::vector<Point3D>::iterator vertex = indexedVertices_.begin(); vertex != indexedVertices_.end(); ++vertex)
     {

@@ -10,7 +10,13 @@
 class ModelLoader
 {
 public:
-    ModelLoader(const QString& filename, const Point3D& center, double maxDimension, const Material& material);
+    ModelLoader(const QString& filename,
+        const Point3D& center,
+        double maxDimension,
+        double xRotationDegree,
+        double yRotationDegree,
+        double zRotationDegree,
+        const Material& material);
     virtual ~ModelLoader();
 
     std::list<Triangle> triangles() const;
@@ -27,6 +33,10 @@ private:
 
 private:
     const Point3D center_;
+    double xRotationDegree_;
+    double yRotationDegree_;
+    double zRotationDegree_;
+
     const Material material_;
 
     std::vector<Point3D> indexedVertices_;

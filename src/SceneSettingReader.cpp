@@ -185,7 +185,11 @@ std::list<Triangle> SceneSettingReader::readModel()
     const Point3D center = readPoint();
     settings_.endGroup();
     const double maxDimension = settings_.value("maxDimension").toDouble();
-    ModelLoader model(filename, center, maxDimension, readMaterial());
+    const double xRotationDegree = settings_.value("xRotation").toDouble();
+    const double yRotationDegree = settings_.value("yRotation").toDouble();
+    const double zRotationDegree = settings_.value("zRotation").toDouble();
+    ModelLoader model(filename, center, maxDimension,
+        xRotationDegree, yRotationDegree, zRotationDegree, readMaterial());
     return model.triangles();
 }
 

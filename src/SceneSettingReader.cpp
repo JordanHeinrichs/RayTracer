@@ -1,5 +1,6 @@
 #include <QString>
 #include "Material.h"
+#include "ModelLoader.h"
 #include "Quad.h"
 #include "SceneSettingReader.h"
 #include "Sphere.h"
@@ -80,6 +81,14 @@ std::list<std::shared_ptr<I_Object> > SceneSettingReader::readObjects()
         else if (settings_.value("type").toString() == "quad")
         {
             objects.push_back(std::shared_ptr<I_Object>(readQuad()));
+        }
+        else if (settings_.value("type").toString() == "model")
+        {
+            std::list<Triangle> models(readModel());
+            for (auto tri : models)
+            {
+                objects.push_back(std::shared_ptr<I_Object>(new Triangle(tri)));
+            }
         }
         else
         {
@@ -167,6 +176,21 @@ I_Object* SceneSettingReader::readQuad()
     settings_.endGroup();
 
     return new Quad(point1, point2, point3, point4, readMaterial());
+}
+
+std::list<Triangle> SceneSettingReader::readModel()
+{
+    const QString filename = settings_.value("filename").toString();
+    settings_.beginGroup("center");
+    const Point3D center = readPoint();
+    settings_.endGroup();
+    const double maxDimension = settings_.value("maxDimension").toDouble();
+    const double xRotationDegree = settings_.value("xRotation").toDouble();
+    const double yRotationDegree = settings_.value("yRotation").toDouble();
+    const double zRotationDegree = settings_.value("zRotation").toDouble();
+    ModelLoader model(filename, center, maxDimension,
+        xRotationDegree, yRotationDegree, zRotationDegree, readMaterial());
+    return model.triangles();
 }
 
 Material SceneSettingReader::readMaterial()

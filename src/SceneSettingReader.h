@@ -10,6 +10,7 @@ class QString;
 #include "I_Object.h"
 #include "Light.h"
 class Material;
+class Triangle;
 
 class SceneSettingReader
 {
@@ -38,6 +39,7 @@ private:
     I_Object* readSphere();
     I_Object* readTriangle();
     I_Object* readQuad();
+    std::list<Triangle> readModel();
     Material readMaterial();
 
 private:

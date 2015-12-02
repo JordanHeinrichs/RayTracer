@@ -9,7 +9,7 @@ Tutorial Section: T05
 To compile the program, on the terminal enter the following commands:
 
     qmake
-    make (or nmake on windows)
+    make install (or nmake on windows)
 
 To run the program, on the terminal enter the following command:
 

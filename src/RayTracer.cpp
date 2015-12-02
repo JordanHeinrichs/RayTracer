@@ -35,8 +35,7 @@ QImage RayTracer::generateImage() const
     int sectionHeight = scene_.height() / NUMBER_OF_THREADS;
 
     std::vector<std::thread> threads;
-
-    time_t start, end;
+    time_t start;
     time(&start);
 
     for (int i = 0; i < NUMBER_OF_THREADS - 1; ++i)
@@ -48,13 +47,13 @@ QImage RayTracer::generateImage() const
 
     rayTraceSection(sectionHeight * (NUMBER_OF_THREADS - 1), scene_.height(), imageData);
 
-    time(&end);
-    std::cout << difftime(end, start) << " seconds" << std::endl;
-
     for(auto &t : threads)
     {
         t.join();
     }
+    time_t end;
+    time(&end);
+    std::cout << "Frame rendering took " << difftime(end, start) << " seconds" << std::endl;
     return image;
 }
 

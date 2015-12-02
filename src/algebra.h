@@ -16,10 +16,6 @@
 #include <algorithm>
 #include <cmath>
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 #define X_INDEX 0
 #define Y_INDEX 1
 #define Z_INDEX 2

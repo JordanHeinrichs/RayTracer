@@ -1,5 +1,9 @@
 #include "Material.h"
 
+Material::Material()
+{
+}
+
 Material::Material(const Color& color,
     double shininess)
 : specular_(color)

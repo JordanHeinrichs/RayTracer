@@ -552,9 +552,9 @@ class Color
 {
 public:
     Color()
-        : r_(0.1)
-        , g_(0.1)
-        , b_(0.1)
+        : r_(0.0)
+        , g_(0.0)
+        , b_(0.0)
     {}
     Color(double r, double g, double b)
         : r_(r)

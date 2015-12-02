@@ -3,9 +3,9 @@
 #include <list>
 #include <vector>
 
-#include "I_Object.h"
-#include "Triangle.h"
+#include "ModelDimensions.h"
 #include "ObjTriangle.h"
+#include "Triangle.h"
 
 class ModelLoader
 {
@@ -20,6 +20,7 @@ public:
     virtual ~ModelLoader();
 
     std::list<Triangle> triangles() const;
+    ModelDimensions maxDimensions() const;
 
 private:
     void scaleAndCenterModel(float maxDimension);
@@ -31,11 +32,14 @@ private:
     bool parseTextureCoordinateLine(const QString& line);
     bool parseFaceElementLine(const QString& line);
 
+    ModelDimensions findMaxDimensions() const;
+
 private:
     const Point3D center_;
     double xRotationDegree_;
     double yRotationDegree_;
     double zRotationDegree_;
+    ModelDimensions maxDimensions_;
 
     const Material material_;
 

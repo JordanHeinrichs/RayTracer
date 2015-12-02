@@ -63,28 +63,18 @@ std::list<Triangle> ModelLoader::triangles() const
     return triangles_;
 }
 
+ModelDimensions ModelLoader::maxDimensions() const
+{
+    return maxDimensions_;
+}
+
 void ModelLoader::scaleAndCenterModel(float maxDimension)
 {
-    double minX = 1e10;
-    double maxX = -1e10;
-    double minY = 1e10;
-    double maxY = -1e10;
-    double minZ = 1e10;
-    double maxZ = -1e10;
 
-    for(const auto vertex : indexedVertices_)
-    {
-        minX = std::min(minX, vertex[X_INDEX]);
-        maxX = std::max(maxX, vertex[X_INDEX]);
-        minY = std::min(minY, vertex[Y_INDEX]);
-        maxY = std::max(maxY, vertex[Y_INDEX]);
-        minZ = std::min(minZ, vertex[Z_INDEX]);
-        maxZ = std::max(maxZ, vertex[Z_INDEX]);
-    }
-
-    const float xDifference = maxX - minX;
-    const float yDifference = maxY - minY;
-    const float zDifference = maxZ - minZ;
+    ModelDimensions dimensions = findMaxDimensions();
+    const float xDifference = dimensions.maxX - dimensions.minX;
+    const float yDifference = dimensions.maxY - dimensions.minY;
+    const float zDifference = dimensions.maxZ - dimensions.minZ;
     float scalingFactor = 1;
     if (xDifference > yDifference && xDifference > zDifference)
     {
@@ -99,9 +89,9 @@ void ModelLoader::scaleAndCenterModel(float maxDimension)
         scalingFactor = maxDimension / zDifference;
     }
 
-    const float xShift = (maxX + minX) / 2.0;
-    const float yShift = (maxY + minY) / 2.0;
-    const float zShift = (maxZ + minZ) / 2.0;
+    const float xShift = (dimensions.maxX + dimensions.minX) / 2.0;
+    const float yShift = (dimensions.maxY + dimensions.minY) / 2.0;
+    const float zShift = (dimensions.maxZ + dimensions.minZ) / 2.0;
 
     Matrix4x4 xRotation = Matrix4x4(
         Vector4D(1, 0, 0, 0),
@@ -128,6 +118,8 @@ void ModelLoader::scaleAndCenterModel(float maxDimension)
         Vector4D VertexAroundOrigin((*vertex) - Point3D(xShift, yShift, zShift));
         (*vertex) = (scalingFactor * (rotationTransform * VertexAroundOrigin)).toPoint() + center_;
     }
+
+    maxDimensions_ = findMaxDimensions();
 }
 
 bool ModelLoader::loadModel(const QString& filename)
@@ -222,4 +214,26 @@ bool ModelLoader::parseFaceElementLine(const QString& line)
         std::cout << "Failed to parse face element line" << std::endl;
         return false;
     }
+}
+
+ModelDimensions ModelLoader::findMaxDimensions() const
+{
+    ModelDimensions dimensions;
+    dimensions.minX = 1e10;
+    dimensions.maxX = -1e10;
+    dimensions.minY = 1e10;
+    dimensions.maxY = -1e10;
+    dimensions.minZ = 1e10;
+    dimensions.maxZ = -1e10;
+
+    for(const auto vertex : indexedVertices_)
+    {
+        dimensions.minX = std::min(dimensions.minX, vertex[X_INDEX]);
+        dimensions.maxX = std::max(dimensions.maxX, vertex[X_INDEX]);
+        dimensions.minY = std::min(dimensions.minY, vertex[Y_INDEX]);
+        dimensions.maxY = std::max(dimensions.maxY, vertex[Y_INDEX]);
+        dimensions.minZ = std::min(dimensions.minZ, vertex[Z_INDEX]);
+        dimensions.maxZ = std::max(dimensions.maxZ, vertex[Z_INDEX]);
+    }
+    return dimensions;
 }

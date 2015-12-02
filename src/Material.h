@@ -5,6 +5,7 @@
 class Material
 {
 public:
+    Material();
     Material(const Color& color,
         double shininess);
     Material(const Color& specular,

@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += c++11 debug console
+CONFIG += c++11 release console
 
 INCLUDEPATH += .
 win32: QMAKE_CXXFLAGS += /WX /O2

@@ -7,6 +7,7 @@ class Ray;
 class Triangle : public I_Object
 {
 public:
+    Triangle();
     Triangle(const Point3D& point1, const Point3D& point2, const Point3D& point3, const Material& material);
     virtual ~Triangle();
 

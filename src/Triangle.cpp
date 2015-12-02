@@ -7,6 +7,10 @@ namespace
     const double EPSILON = 1e-5;
 }
 
+Triangle::Triangle()
+{
+}
+
 Triangle::Triangle(
     const Point3D& point1,
     const Point3D& point2,

@@ -1,4 +1,4 @@
-#define _MATH_DEFINES_DEFINED
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include <QColor>

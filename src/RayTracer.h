@@ -18,6 +18,7 @@ public:
     QImage generateImage() const;
 
 private:
+    void rayTraceSection(int yLower, int yUpper, QRgb* imageData) const;
     Color trace(const Ray& ray, int depth) const;
     Ray reflectionRay(const Ray& ray, const I_Object& object, const Point3D& point) const;
 

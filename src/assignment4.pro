@@ -1,9 +1,9 @@
 TEMPLATE = app
-CONFIG += c++11 debug console
+CONFIG += c++11 console
 
 INCLUDEPATH += .
-win32: QMAKE_CXXFLAGS += /WX /O2
-!win32: QMAKE_CXXFLAGS += -Werror -O3
+win32: QMAKE_CXXFLAGS += /WX /O2 /MP4
+!win32: QMAKE_CXXFLAGS += -Werror -O3 -j4
 
 # Input
 HEADERS += *.h

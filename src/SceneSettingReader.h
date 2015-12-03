@@ -39,7 +39,7 @@ private:
     I_Object* readSphere();
     I_Object* readTriangle();
     I_Object* readQuad();
-    std::list<Triangle> readModel();
+    I_Object* readModel();
     Material readMaterial();
 
 private:

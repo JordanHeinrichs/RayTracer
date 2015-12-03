@@ -1,4 +1,5 @@
 #include <QString>
+#include "BoundingBoxObject.h"
 #include "Material.h"
 #include "ModelLoader.h"
 #include "Quad.h"
@@ -84,11 +85,7 @@ std::list<std::shared_ptr<I_Object> > SceneSettingReader::readObjects()
         }
         else if (settings_.value("type").toString() == "model")
         {
-            std::list<Triangle> models(readModel());
-            for (auto tri : models)
-            {
-                objects.push_back(std::shared_ptr<I_Object>(new Triangle(tri)));
-            }
+            objects.push_back(std::shared_ptr<I_Object>(readModel()));
         }
         else
         {
@@ -178,7 +175,7 @@ I_Object* SceneSettingReader::readQuad()
     return new Quad(point1, point2, point3, point4, readMaterial());
 }
 
-std::list<Triangle> SceneSettingReader::readModel()
+I_Object* SceneSettingReader::readModel()
 {
     const QString filename = settings_.value("filename").toString();
     settings_.beginGroup("center");
@@ -190,7 +187,7 @@ std::list<Triangle> SceneSettingReader::readModel()
     const double zRotationDegree = settings_.value("zRotation").toDouble();
     ModelLoader model(filename, center, maxDimension,
         xRotationDegree, yRotationDegree, zRotationDegree, readMaterial());
-    return model.triangles();
+    return new BoundingBoxObject(model.triangles(), model.maxDimensions());
 }
 
 Material SceneSettingReader::readMaterial()

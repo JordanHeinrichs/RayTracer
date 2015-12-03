@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include "I_Object.h"
 #include "ModelDimensions.h"
 class Triangle;

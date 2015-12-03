@@ -1,4 +1,5 @@
 #include "I_Object.h"
+#include "IntersectionMatch.h"
 #include "Light.h"
 #include "Ray.h"
 #include "Scene.h"
@@ -26,28 +27,23 @@ Ray Scene::generateCameraRay(int xPixel, int yPixel) const
     return Ray(cameraLocation_, pointAlongRay);
 }
 
-bool Scene::doesRayIntersect(const Ray& ray, double& t, I_Object*& object) const
+IntersectionMatch Scene::doesRayIntersect(const Ray& ray) const
 {
-    I_Object* closestObject = NULL;
-    t = std::numeric_limits<double>::max();
-
-    for(std::list<std::shared_ptr<I_Object> >::const_iterator object = objects_.begin();
-        object != objects_.end(); ++object)
+    IntersectionMatch closestMatch;
+    for (const auto& object : objects_)
     {
-        double objectIntersectionT;
-        if ((*object)->doesRayIntersect(ray, objectIntersectionT))
+        auto match = object->doesRayIntersect(ray);
+        if (match)
         {
             // if object is closer than current object
-            if (objectIntersectionT < t)
+            if (match < closestMatch)
             {
-                t = objectIntersectionT;
-                closestObject = object->get();
+                closestMatch = match;
             }
         }
     }
 
-    object = closestObject;
-    return object != NULL;
+    return closestMatch;
 }
 
 int Scene::width() const

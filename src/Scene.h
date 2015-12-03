@@ -4,6 +4,7 @@
 #include <memory>
 #include "algebra.h"
 class I_Object;
+class IntersectionMatch;
 class Light;
 class Ray;
 class SceneSettingReader;
@@ -15,7 +16,7 @@ public:
     virtual ~Scene();
 
     Ray generateCameraRay(int xPixel, int yPixel) const;
-    bool doesRayIntersect(const Ray& ray, double& t, I_Object*& object) const;
+    IntersectionMatch doesRayIntersect(const Ray& ray) const;
 
     int width() const;
     int height() const;

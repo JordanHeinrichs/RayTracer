@@ -1,4 +1,12 @@
+#include <list>
+
+#include <QtGlobal>
+
 #include "BoundingBoxObject.h"
+#include "IntersectionMatch.h"
+#include "Quad.h"
+#include "Ray.h"
+#include "Triangle.h"
 
 BoundingBoxObject::BoundingBoxObject(const std::list<Triangle>& triangles, ModelDimensions maxDimensions)
 : triangles_(triangles)
@@ -11,56 +19,50 @@ BoundingBoxObject::~BoundingBoxObject()
 {
 }
 
-bool BoundingBoxObject::doesRayIntersect(const Ray& ray, double& t) const
+IntersectionMatch BoundingBoxObject::doesRayIntersect(const Ray& ray) const
 {
     bool doesRayIntersectBox = false;
     for (const Quad& quad : boundingBox_)
     {
-        if (quad.doesRayIntersect(ray, t))
+        const auto match = quad.doesRayIntersect(ray);
+        if (match)
         {
             doesRayIntersectBox = true;
             break;
         }
     }
-
     if (!doesRayIntersectBox)
     {
-        return false;
+        return IntersectionMatch();
     }
 
-    bool doesRayIntersectTriangle = false;
-    double nearestTvalue = std::numeric_limits<double>::max();
+    IntersectionMatch closestMatch;
     for (const Triangle& tri : triangles_)
     {
-        if (tri.doesRayIntersect(ray, t))
+        const auto match = tri.doesRayIntersect(ray);
+        if (match)
         {
-            if (t < nearestTvalue)
+            // if object is closer than current object
+            if (match < closestMatch)
             {
-                closestTriangle_ = tri;
-                nearestTvalue = t;
+                closestMatch = match;
             }
-            doesRayIntersectTriangle = true;
         }
     }
 
-    if (doesRayIntersectTriangle)
-    {
-
-    }
-    else
-    {
-        return false;
-    }
+    return closestMatch;
 }
 
 Vector4D BoundingBoxObject::normal(const Vector4D& point) const
 {
-
+    Q_UNUSED(point);
+    return Vector4D();
 }
 
 const Material& BoundingBoxObject::material() const
 {
-
+    // Garbage value
+    return triangles_.front().material();;
 }
 
 void BoundingBoxObject::generateBox()

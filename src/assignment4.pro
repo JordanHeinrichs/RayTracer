@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += c++11 console
+CONFIG += c++11 c++14 console release
 
 INCLUDEPATH += .
 win32: QMAKE_CXXFLAGS += /WX /O2 /MP4

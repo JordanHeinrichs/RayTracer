@@ -15,7 +15,7 @@ public:
         const Material& material);
     virtual ~Quad();
 
-    bool doesRayIntersect(const Ray& ray, double& t) const;
+    IntersectionMatch doesRayIntersect(const Ray& ray) const;
     Vector4D normal(const Vector4D& point) const;
     const Material& material() const;
 

@@ -1,15 +1,16 @@
 #pragma once
 
 #include "algebra.h"
-class Ray;
+class IntersectionMatch;
 class Material;
+class Ray;
 
 class I_Object
 {
 public:
     virtual ~I_Object() {}
 
-    virtual bool doesRayIntersect(const Ray& ray, double& t) const = 0;
+    virtual IntersectionMatch doesRayIntersect(const Ray& ray) const = 0;
 
     virtual Vector4D normal(const Vector4D& point) const = 0;
     virtual const Material& material() const = 0;

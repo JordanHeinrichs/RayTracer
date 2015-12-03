@@ -1,6 +1,7 @@
 #include <QtGlobal>
-#include "Triangle.h"
+#include "IntersectionMatch.h"
 #include "Ray.h"
+#include "Triangle.h"
 
 namespace
 {
@@ -41,7 +42,7 @@ Triangle::~Triangle()
 {
 }
 
-bool Triangle::doesRayIntersect(const Ray& ray, double& t) const
+IntersectionMatch Triangle::doesRayIntersect(const Ray& ray) const
 {
     const double a = normal_.dot(point1_ - ray.startPoint());
     const double b = normal_.dot(ray.directionVector());
@@ -49,13 +50,13 @@ bool Triangle::doesRayIntersect(const Ray& ray, double& t) const
     // If Ray is parallel, (also prevents dividing by 0)
     if (std::fabs(b) < EPSILON || std::fabs(a) < EPSILON)
     {
-        return false;
+        return IntersectionMatch();
     }
-    t = a / b;
+    double t = a / b;
     // Ray is going away from the plane and never intersects
     if (t < EPSILON)
     {
-        return false;
+        return IntersectionMatch();
     }
 
     const Vector4D intersectionPoint = ray.pointAlongRay(t);
@@ -66,15 +67,15 @@ bool Triangle::doesRayIntersect(const Ray& ray, double& t) const
     const double s = (dotUV_ * dotWV - dotVV_ * dotWU) / intersectTestDenominator_;
     if (s < 0.0 || s > 1.0)
     {
-        return false;
+        return IntersectionMatch();
     }
     const double q = (dotUV_ * dotWU - dotUU_ * dotWV) / intersectTestDenominator_;
     if (q < 0.0 || (q + s) > 1.0)
     {
-        return false;
+        return IntersectionMatch();
     }
 
-    return true;
+    return IntersectionMatch(true, this, t);
 }
 
 Vector4D Triangle::normal(const Vector4D& point) const

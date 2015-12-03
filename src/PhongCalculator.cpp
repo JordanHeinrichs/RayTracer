@@ -1,4 +1,5 @@
 #include "I_Object.h"
+#include "IntersectionMatch.h"
 #include "Light.h"
 #include "Material.h"
 #include "PhongCalculator.h"
@@ -29,20 +30,20 @@ Color PhongCalculator::calculate(const Point3D& point,
     Vector4D viewVector = viewPosition - point;
     viewVector.normalize();
     Vector4D normal = object.normal(point);
-    haveNormalFaceViewPosition(normal, viewVector);
+    flipNormalIfNeeded(normal, viewVector);
 
     Color color = object.material().ambient() * GLOBAL_AMBIENT_FACTOR;
-    for(std::list<Light>::const_iterator light = lights_.begin(); light != lights_.end(); ++light)
+    for(const auto& light : lights_)
     {
-        Ray shadowRay(point, light->position());
+        Ray shadowRay(point, light.position());
         if (doesPointSeeLight(shadowRay))
         {
             color += object.material().diffuse() * std::max(shadowRay.directionVector().dot(normal), 0.0)
-                * light->diffuse();
+                * light.diffuse();
             Vector4D reflection = (2 * shadowRay.directionVector().dot(normal) * normal)
                 - shadowRay.directionVector();
             reflection.normalize();
-            color += object.material().specular() * light->specular()
+            color += object.material().specular() * light.specular()
                 * std::pow(std::max(reflection.dot(viewVector), 0.0), object.material().shininess());
         }
     }
@@ -51,11 +52,10 @@ Color PhongCalculator::calculate(const Point3D& point,
 
 bool PhongCalculator::doesPointSeeLight(const Ray& shadowRay) const
 {
-    for(std::list<std::shared_ptr<I_Object> >::const_iterator object = objects_.begin();
-        object != objects_.end(); ++object)
+    for(const auto& object : objects_)
     {
-        double t = 0.0;
-        if (!(*object)->doesRayIntersect(shadowRay, t) || t < EPSILON)
+        auto match = object->doesRayIntersect(shadowRay);
+        if (!match || match.t() < EPSILON)
         {
             return true;
         }
@@ -63,7 +63,7 @@ bool PhongCalculator::doesPointSeeLight(const Ray& shadowRay) const
     return false;
 }
 
-void PhongCalculator::haveNormalFaceViewPosition(Vector4D& normal, const Vector4D& viewVector) const
+void PhongCalculator::flipNormalIfNeeded(Vector4D& normal, const Vector4D& viewVector) const
 {
     if (normal.dot(viewVector) < 0.0)
     {

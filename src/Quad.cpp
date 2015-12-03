@@ -1,3 +1,4 @@
+#include "IntersectionMatch.h"
 #include "Quad.h"
 
 Quad::Quad(const Point3D& point1,
@@ -20,13 +21,14 @@ Quad::~Quad()
 {
 }
 
-bool Quad::doesRayIntersect(const Ray& ray, double& t) const
+IntersectionMatch Quad::doesRayIntersect(const Ray& ray) const
 {
-    if (tri1_.doesRayIntersect(ray, t))
+    auto match = tri1_.doesRayIntersect(ray);
+    if (match)
     {
-        return true;
+        return match;
     }
-    return tri2_.doesRayIntersect(ray, t);
+    return tri2_.doesRayIntersect(ray);
 }
 
 Vector4D Quad::normal(const Vector4D& point) const

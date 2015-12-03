@@ -2,14 +2,17 @@
 
 #include "I_Object.h"
 #include "ModelDimensions.h"
+class Triangle;
+class Quad;
+class Material;
 
 class BoundingBoxObject : public I_Object
 {
 public:
-    explicit BoundingBoxObject(const std::list<Triangle> triangles&, ModelDimensions maxDimensions);
+    explicit BoundingBoxObject(const std::list<Triangle>& triangles, ModelDimensions maxDimensions);
     virtual ~BoundingBoxObject();
 
-    bool doesRayIntersect(const Ray& ray, double& t) const;
+    IntersectionMatch doesRayIntersect(const Ray& ray) const;
 
     Vector4D normal(const Vector4D& point) const;
     const Material& material() const;
@@ -19,8 +22,6 @@ private:
 
 private:
     std::list<Quad> boundingBox_;
-    ModelDimensions maxDimensions_;
-
-    Triangle closestTriangle_;
     std::list<Triangle> triangles_;
+    ModelDimensions maxDimensions_;
 };

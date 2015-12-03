@@ -10,7 +10,7 @@ public:
     Sphere(const Point3D& center, double radius, const Material& material);
     virtual ~Sphere();
 
-    bool doesRayIntersect(const Ray& ray, double& t) const;
+    IntersectionMatch doesRayIntersect(const Ray& ray) const;
     Vector4D normal(const Vector4D& point) const;
     const Material& material() const;
 

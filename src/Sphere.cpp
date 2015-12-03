@@ -1,4 +1,5 @@
 #include <cmath>
+#include "IntersectionMatch.h"
 #include "Ray.h"
 #include "Sphere.h"
 
@@ -13,7 +14,7 @@ Sphere::~Sphere()
 {
 }
 
-bool Sphere::doesRayIntersect(const Ray& ray, double& t) const
+IntersectionMatch Sphere::doesRayIntersect(const Ray& ray) const
 {
     Vector4D D = Vector4D(ray.startPoint()) - center_;
     double a = 1.0;
@@ -23,24 +24,22 @@ bool Sphere::doesRayIntersect(const Ray& ray, double& t) const
 
     if (discriminant < 0)
     {
-        return false;
+        return IntersectionMatch();
     }
     double t1 = (-b + std::sqrt(discriminant)) / 2.0;
     double t2 = (-b - std::sqrt(discriminant)) / 2.0;
 
     if (t1 > 0 && t1 < t2)
     {
-        t = t1;
-        return true;
+        return IntersectionMatch(true, this, t1);
     }
     else if (t2 > 0)
     {
-        t = t2;
-        return true;
+        return IntersectionMatch(true, this, t2);
     }
     else
     {
-        return false;
+        return IntersectionMatch();
     }
 }
 

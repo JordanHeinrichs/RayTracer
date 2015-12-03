@@ -5,6 +5,7 @@
 #include <QColor>
 
 #include "I_Object.h"
+#include "IntersectionMatch.h"
 #include "PhongCalculator.h"
 #include "Ray.h"
 #include "RayTracer.h"
@@ -77,16 +78,15 @@ Color RayTracer::trace(const Ray& ray, int depth) const
         return BACKGROUND_COLOR;
     }
 
-    I_Object* object = NULL;
-    double t = 0.0;
-    if (!scene_.doesRayIntersect(ray, t, object))
+    auto match = scene_.doesRayIntersect(ray);
+    if (!match)
     {
         return BACKGROUND_COLOR;
     }
 
-    const Point3D intersectPoint = ray.pointAlongRay(t);
-    Color localColor =  phongCalculator_->calculate(intersectPoint, *object, ray.startPoint());
-    Color reflectedColor = trace(reflectionRay(ray, *object, intersectPoint), depth + 1);
+    const Point3D intersectPoint = ray.pointAlongRay(match.t());
+    Color localColor =  phongCalculator_->calculate(intersectPoint, *match.object(), ray.startPoint());
+    Color reflectedColor = trace(reflectionRay(ray, *match.object(), intersectPoint), depth + 1);
     return localColor + reflectedColor;
 }
 

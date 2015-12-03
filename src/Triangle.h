@@ -11,7 +11,7 @@ public:
     Triangle(const Point3D& point1, const Point3D& point2, const Point3D& point3, const Material& material);
     virtual ~Triangle();
 
-    bool doesRayIntersect(const Ray& ray, double& t) const;
+    IntersectionMatch doesRayIntersect(const Ray& ray) const;
     Vector4D normal(const Vector4D& point) const;
     const Material& material() const;
 

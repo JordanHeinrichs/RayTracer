@@ -29,7 +29,7 @@ public:
 
     Point3D cameraLocation();
 
-    std::list<std::shared_ptr<I_Object> > readObjects();
+    std::list<std::shared_ptr<I_Object>> readObjects();
     std::list<Light> readLights();
 
 private:

@@ -13,7 +13,7 @@ namespace
 
 PhongCalculator::PhongCalculator(
     const std::list<Light>& lights,
-    const std::list<std::shared_ptr<I_Object> >& objects)
+    const std::list<std::shared_ptr<I_Object>>& objects)
 : lights_(lights)
 , objects_(objects)
 {

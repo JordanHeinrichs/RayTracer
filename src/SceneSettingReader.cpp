@@ -63,9 +63,9 @@ Point3D SceneSettingReader::cameraLocation()
     return cameraLocation;
 }
 
-std::list<std::shared_ptr<I_Object> > SceneSettingReader::readObjects()
+std::list<std::shared_ptr<I_Object>> SceneSettingReader::readObjects()
 {
-    std::list<std::shared_ptr<I_Object> > objects;
+    std::list<std::shared_ptr<I_Object>> objects;
     settings_.beginGroup(OBJECTS_GROUP);
     const int size = settings_.beginReadArray("objects");
     for (int i = 0; i < size; ++i)

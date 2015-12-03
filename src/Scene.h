@@ -21,7 +21,7 @@ public:
     int width() const;
     int height() const;
     const std::list<Light>& lights() const;
-    const std::list<std::shared_ptr<I_Object> >& objects() const;
+    const std::list<std::shared_ptr<I_Object>>& objects() const;
 
 private:
     Point3D getPointOnViewplaneFromPixel(int xPixel, int yPixel) const;
@@ -31,7 +31,7 @@ private:
     const int height_;
 
     std::list<Light> lights_;
-    std::list<std::shared_ptr<I_Object> > objects_;
+    std::list<std::shared_ptr<I_Object>> objects_;
 
     const Point3D cameraLocation_;
     const double viewportZLocation_;

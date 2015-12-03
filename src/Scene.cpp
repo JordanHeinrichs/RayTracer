@@ -61,7 +61,7 @@ const std::list<Light>& Scene::lights() const
     return lights_;
 }
 
-const std::list<std::shared_ptr<I_Object> >& Scene::objects() const
+const std::list<std::shared_ptr<I_Object>>& Scene::objects() const
 {
     return objects_;
 }

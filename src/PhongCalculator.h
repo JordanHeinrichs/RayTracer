@@ -10,7 +10,7 @@ class Light;
 class PhongCalculator
 {
 public:
-    PhongCalculator(const std::list<Light>& lights, const std::list<std::shared_ptr<I_Object> >& objects);
+    PhongCalculator(const std::list<Light>& lights, const std::list<std::shared_ptr<I_Object>>& objects);
     virtual ~PhongCalculator();
 
     Color calculate(const Point3D& point,
@@ -23,5 +23,5 @@ private:
 
 private:
     const std::list<Light>& lights_;
-    const std::list<std::shared_ptr<I_Object> >& objects_;
+    const std::list<std::shared_ptr<I_Object>>& objects_;
 };

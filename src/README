@@ -8,8 +8,9 @@ Tutorial Section: T05
 
 To compile the program, on the terminal enter the following commands:
 
+    cd src
     qmake
-    make install (or nmake on windows)
+    make install # (or nmake on windows) a c++11 compatible compiler must be used.
 
 To run the program, on the terminal enter the following command:
 
@@ -18,38 +19,124 @@ To run the program, on the terminal enter the following command:
 
 === 2. PROGRAM USE: ===
 
-<Insert a precise user manual on how to interact with the program; eg.
-command line arguments, widgets, etc. if applicable.>
+All user interaction with the program is through sceneSpecificationRc within the build directory.
+The file follows default INI format, the default specification file consists of at least one example
+of each object type.
 
 == 3. ALGORITHMS and DESIGN DECISIONS: ===
 
-<Insert a description of the algorithms created and design decisions taken>
+High level design decisions:
+    The ray tracer is split up into an object orientated design. After the creation of the scene, all
+    entities and services only provide functions that are non-mutable. This allowed for the ray tracer
+    to be easily multithreaded without risk of problems with memory corruption.
+
+    When possible modern c++ syntax was used.
+
+    Two value classes were extensively used, Ray and IntersectionMatch. These were non-mutable on
+    construction with the exception of IntersectionMatch which has an assignment operator.
+
+I_Object design:
+    I_Object is an interface that Sphere, Triangle, Quad and BoundingBoxObject implement.
+    I_Object provides three methods which allow for checking if a ray intersects with an object,
+    returns the normal of the object, and returns the material of the object.
+
+RayTracer design:
+    RayTracer has the generateImage function that divides the image into bits then
+    spawns threads to render each of those image sections.
+
+    The rayTracer also has a function called trace that is designed to be called recursively.
+    The trace function checks the depth level of the recursion then checks to see of the ray intersects
+    anything within the scene. If it does intersection something it calculates the phong lighting on that
+    object and then calls itself to get the reflection color with.
+
+Scene design:
+    Scene is a object that contains the entire scene specification. It contains all the I_Objects and
+    the Lights as well as some helper functions to detect matches and getting camera rays.
+
+Sphere design:
+    The sphere intersection test uses the quadratic equation to find the intersection point. It returns
+    the closest intersection t value above 0.
+
+Triangle design:
+    The triangle uses Barycentric Coordinate method to find the intersection.
+
+Quad design:
+    The quad is just made up of 2 triangles.
+
+BoundingBoxObject design:
+    The bounding box is just a wrapper around all the Triangle objects of a model. It creates a box around the max dimensions of a model and only if the ray intersects the box it will test all triangles within
+    the model.
+
+PhongCalculator design:
+    The phong calculator is an implementation of the Phong illumination model.
+
+Optimizations:
+    Compiler optimizations of -O3 and /O2 were used on gcc and msvc2015 respectively.
+    The Triangle class pre-calculates any value that it can reuse.
+    Pass by reference was given preference over copying.
 
 === 4. FILES SUBMITTED: ===
 
-<Insert a list of files that have been submitted by the assignment in case
-there is a discrepancy in the submission>
+.
+├── build
+│   └── tris.obj
+└── src
+    ├── algebra.cpp
+    ├── algebra.h
+    ├── assignment4.pro
+    ├── BoundingBoxObject.cpp
+    ├── BoundingBoxObject.h
+    ├── IntersectionMatch.cpp
+    ├── IntersectionMatch.h
+    ├── I_Object.h
+    ├── Light.cpp
+    ├── Light.h
+    ├── main.cpp
+    ├── Material.cpp
+    ├── Material.h
+    ├── ModelDimensions.h
+    ├── ModelLoader.cpp
+    ├── ModelLoader.h
+    ├── ObjTriangle.cpp
+    ├── ObjTriangle.h
+    ├── PhongCalculator.cpp
+    ├── PhongCalculator.h
+    ├── Quad.cpp
+    ├── Quad.h
+    ├── Ray.cpp
+    ├── Ray.h
+    ├── RayTracer.cpp
+    ├── RayTracer.h
+    ├── README
+    ├── Scene.cpp
+    ├── Scene.h
+    ├── SceneSettingReader.cpp
+    ├── SceneSettingReader.h
+    ├── sceneSpecificationRc
+    ├── Sphere.cpp
+    ├── Sphere.h
+    ├── Triangle.cpp
+    └── Triangle.h
 
 === 5. IMAGES SUBMITTED: ===
 
-<Insert a list of images that have been submitted by the assignment and describe
-what they demonstrate for the assignment>
+TODO
 
 === 6. PROGRAM ASSUMPTIONS: ===
 
-<Insert a short description of any assumptions made>
+The program uses 4 threads. Works best on a 4 core CPU (or at 2 core hyper-threaded CPU).
 
 === 7. DECLARATION AND IMAGE PERMISSION: ===
 
 <Initial the following:>
 
-__ I have read the regulations regarding plagarism. I affirm with my initials
+JH I have read the regulations regarding plagarism. I affirm with my initials
 that I have worked on my own solution to this assignment, and the code I am
 submitting is my own.
 
 <Mark with an X if desired. No marks will be deducted either way>
 
-__ I grant the instructor and/or TAs permission to use images submitted and/or
+X  I grant the instructor and/or TAs permission to use images submitted and/or
    assignment screenshots for future CPSC453 courses.
 
 __ If permission has been granted above, I would prefer the images to remain

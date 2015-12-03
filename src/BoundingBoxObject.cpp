@@ -61,8 +61,8 @@ Vector4D BoundingBoxObject::normal(const Vector4D& point) const
 
 const Material& BoundingBoxObject::material() const
 {
-    // Garbage value
-    return triangles_.front().material();;
+    // Garbage value as this should not be called.
+    return triangles_.front().material();
 }
 
 void BoundingBoxObject::generateBox()

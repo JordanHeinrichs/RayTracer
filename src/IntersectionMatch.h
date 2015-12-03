@@ -14,7 +14,7 @@ public:
 
     explicit operator bool() const;
     bool operator <(const IntersectionMatch& other) const;
-    IntersectionMatch& operator=(const IntersectionMatch& other);
+    IntersectionMatch& operator =(const IntersectionMatch& other);
 
 private:
     bool matchSuccessful_;

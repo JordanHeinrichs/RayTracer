@@ -3,7 +3,7 @@ CONFIG += c++11 c++14 console release
 
 INCLUDEPATH += .
 win32: QMAKE_CXXFLAGS += /WX /O2 /MP4
-!win32: QMAKE_CXXFLAGS += -Werror -O3
+!win32: QMAKE_CXXFLAGS += -Werror -O3 -Wno-ignored-qualifiers
 
 # Input
 HEADERS += *.h

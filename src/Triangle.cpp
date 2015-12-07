@@ -24,12 +24,7 @@ Triangle::Triangle(
 {
     Vector3D u = point2_ - point1_;
     Vector3D v = point3_ - point1_;
-
     Vector3D normal = u.cross(v);
-    if (Vector4D(normal) == Vector4D(0, 0, 0, 0))
-    {
-        std::cout << "normal zero: "<< normal <<std::endl;
-    }
     normal.normalize();
 
     u_ = u;

@@ -126,6 +126,14 @@ TODO
 
 The program uses 4 threads. Works best on a 4 core CPU (or at 2 core hyper-threaded CPU).
 
+BONUS:
+    - OBJ files
+    - Read scene and light speciﬁcations from an input ﬁle
+    - Dynamic eye position and viewing direction speciﬁcation, only some control
+    - Bounding Boxes
+
+Not an offical bonus but it is multithreaded.
+
 === 7. DECLARATION AND IMAGE PERMISSION: ===
 
 <Initial the following:>

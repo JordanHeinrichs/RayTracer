@@ -77,9 +77,15 @@ Optimizations:
 
 === 4. FILES SUBMITTED: ===
 
-.
-├── build
+├── models
+│   ├── serenity.obj
+│   ├── stormtrooper.obj
 │   └── tris.obj
+├── pictures
+│   ├── outputMultilight.png
+│   ├── output.png
+│   ├── outputSerenity.png
+│   └── stormtrooper.png
 └── src
     ├── algebra.cpp
     ├── algebra.h
@@ -113,6 +119,9 @@ Optimizations:
     ├── SceneSettingReader.cpp
     ├── SceneSettingReader.h
     ├── sceneSpecificationRc
+    ├── sceneSpecificationRc_multilight
+    ├── sceneSpecificationRc_Serenity
+    ├── sceneSpecificationRc_stormtrooper
     ├── Sphere.cpp
     ├── Sphere.h
     ├── Triangle.cpp
@@ -120,7 +129,10 @@ Optimizations:
 
 === 5. IMAGES SUBMITTED: ===
 
-TODO
+outputMultilight.png
+output.png
+outputSerenity.png
+stormtrooper.png
 
 === 6. PROGRAM ASSUMPTIONS: ===
 
@@ -150,7 +162,7 @@ X  I grant the instructor and/or TAs permission to use images submitted and/or
 __ If permission has been granted above, I would prefer the images to remain
    annonymous. <Otherwise credit will be given, as is due>
 
-__ I would like to participate in the raytracer competition. <Competition entries will
+_X_ I would like to participate in the raytracer competition. <Competition entries will
    not be annonymous and credited accordingly. Specify which images are for consideration,
    otherwise all will be considered.>
 

@@ -11,7 +11,7 @@ namespace
 {
     const QRegularExpression VERTEX_ROW("(-?\\d+\\.\\d+) (-?\\d+\\.\\d+) (-?\\d+\\.\\d+)$");
     const QRegularExpression TEXTURE_COORDINATE_ROW("(-?\\d+\\.\\d+) (-?\\d+\\.\\d+)$");
-    const QRegularExpression FACE_ELEMENT_ROW("(\\d+)/(\\d+) (\\d+)/(\\d+) (\\d+)/(\\d+)$");
+    const QRegularExpression FACE_ELEMENT_ROW("^f\\s+(\\d+)/(\\d+) (\\d+)/(\\d+) (\\d+)/(\\d+)$");
 
     const int FLOATS_PER_TRIANGLE = 9; // 3 vertices per triangle * 3 floats per vertex
     const float NORMAL_LINE_LENGTH = 0.3f;
@@ -53,12 +53,17 @@ ModelLoader::~ModelLoader()
 std::list<Triangle> ModelLoader::triangles() const
 {
     std::list<Triangle> triangles_;
-    for (auto tri : objTriangles_)
+    for (const auto& tri : objTriangles_)
     {
-        triangles_.push_back(Triangle(indexedVertices_[tri.indexOfVertices[0]],
-            indexedVertices_[tri.indexOfVertices[1]],
-            indexedVertices_[tri.indexOfVertices[2]],
-            material_));
+        if (indexedVertices_[tri.indexOfVertices[0]] != indexedVertices_[tri.indexOfVertices[1]] &&
+            indexedVertices_[tri.indexOfVertices[0]] != indexedVertices_[tri.indexOfVertices[2]] &&
+            indexedVertices_[tri.indexOfVertices[1]] != indexedVertices_[tri.indexOfVertices[2]])
+        {
+            triangles_.push_back(Triangle(indexedVertices_[tri.indexOfVertices[0]],
+                indexedVertices_[tri.indexOfVertices[1]],
+                indexedVertices_[tri.indexOfVertices[2]],
+                material_));
+        }
     }
     return triangles_;
 }
@@ -113,9 +118,10 @@ void ModelLoader::scaleAndCenterModel(float maxDimension)
 
     Matrix4x4 rotationTransform = zRotation * yRotation * xRotation;
 
+    const Point3D shift(xShift, yShift, zShift);
     for (std::vector<Point3D>::iterator vertex = indexedVertices_.begin(); vertex != indexedVertices_.end(); ++vertex)
     {
-        Vector4D VertexAroundOrigin((*vertex) - Point3D(xShift, yShift, zShift));
+        Vector4D VertexAroundOrigin((*vertex) - shift);
         (*vertex) = (scalingFactor * (rotationTransform * VertexAroundOrigin)).toPoint() + center_;
     }
 
@@ -166,13 +172,13 @@ bool ModelLoader::parseVertexLine(const QString& line)
     QRegularExpressionMatch match = VERTEX_ROW.match(line);
     if (match.hasMatch())
     {
-        indexedVertices_.push_back(Point3D(match.captured(1).toFloat(),
-            match.captured(2).toFloat(), match.captured(3).toFloat()));
+        indexedVertices_.push_back(Point3D(match.captured(1).toDouble(),
+            match.captured(2).toDouble(), match.captured(3).toDouble()));
         return true;
     }
     else
     {
-        std::cout << "Failed to parse vertex line" << std::endl;
+        std::cout << "Failed to parse vertex line" << qPrintable(line) << std::endl;
         return false;
     }
 }
@@ -182,7 +188,8 @@ bool ModelLoader::parseTextureCoordinateLine(const QString& line)
     QRegularExpressionMatch match = TEXTURE_COORDINATE_ROW.match(line);
     if (match.hasMatch())
     {
-        indexedTextureCoordinates_.push_back(Point2D(match.captured(1).toFloat(), match.captured(2).toFloat()));
+        indexedTextureCoordinates_.push_back(Point2D(
+            match.captured(1).toDouble(), match.captured(2).toDouble()));
         return true;
     }
     else

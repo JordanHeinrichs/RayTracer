@@ -103,6 +103,11 @@ public:
     {
         return v_[ idx ];
     }
+    bool operator ==(const Point3D& other) const;
+    inline bool operator !=(const Point3D& other) const
+    {
+        return !(*this == other);
+    }
 
 private:
     double v_[3];

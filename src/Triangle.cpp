@@ -24,7 +24,12 @@ Triangle::Triangle(
 {
     Vector3D u = point2_ - point1_;
     Vector3D v = point3_ - point1_;
+
     Vector3D normal = u.cross(v);
+    if (Vector4D(normal) == Vector4D(0, 0, 0, 0))
+    {
+        std::cout << "normal zero: "<< normal <<std::endl;
+    }
     normal.normalize();
 
     u_ = u;
@@ -54,7 +59,7 @@ IntersectionMatch Triangle::doesRayIntersect(const Ray& ray) const
     }
     double t = a / b;
     // Ray is going away from the plane and never intersects
-    if (t < EPSILON)
+    if (t < EPSILON || std::isnan(t))
     {
         return IntersectionMatch();
     }

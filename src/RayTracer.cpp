@@ -95,5 +95,6 @@ Ray RayTracer::reflectionRay(const Ray& ray, const I_Object& object, const Point
     const Vector4D normal = object.normal(point);
     Vector4D reflection = ray.directionVector() - (2 * ray.directionVector().dot(normal) * normal);
     reflection.normalize();
-    return Ray(point, reflection);
+    Ray rayReturn(point, reflection);
+    return rayReturn;
 }

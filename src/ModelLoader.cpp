@@ -75,7 +75,6 @@ ModelDimensions ModelLoader::maxDimensions() const
 
 void ModelLoader::scaleAndCenterModel(float maxDimension)
 {
-
     ModelDimensions dimensions = findMaxDimensions();
     const float xDifference = dimensions.maxX - dimensions.minX;
     const float yDifference = dimensions.maxY - dimensions.minY;
@@ -112,7 +111,7 @@ void ModelLoader::scaleAndCenterModel(float maxDimension)
 
     Matrix4x4 zRotation = Matrix4x4(
         Vector4D(cos(degToRad(zRotationDegree_)), -sin(degToRad(zRotationDegree_)), 0, 0),
-        Vector4D(-sin(degToRad(zRotationDegree_)), cos(degToRad(zRotationDegree_)), 0, 0),
+        Vector4D(sin(degToRad(zRotationDegree_)), cos(degToRad(zRotationDegree_)), 0, 0),
         Vector4D(0, 0, 1, 0),
         Vector4D(0, 0, 0, 1));
 
@@ -233,7 +232,7 @@ ModelDimensions ModelLoader::findMaxDimensions() const
     dimensions.minZ = 1e10;
     dimensions.maxZ = -1e10;
 
-    for(const auto vertex : indexedVertices_)
+    for(const auto& vertex : indexedVertices_)
     {
         dimensions.minX = std::min(dimensions.minX, vertex[X_INDEX]);
         dimensions.maxX = std::max(dimensions.maxX, vertex[X_INDEX]);

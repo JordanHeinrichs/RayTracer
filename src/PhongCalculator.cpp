@@ -55,12 +55,12 @@ bool PhongCalculator::doesPointSeeLight(const Ray& shadowRay) const
     for(const auto& object : objects_)
     {
         auto match = object->doesRayIntersect(shadowRay);
-        if (!match || match.t() < EPSILON)
+        if (match && match.t() > EPSILON)
         {
-            return true;
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
 void PhongCalculator::flipNormalIfNeeded(Vector4D& normal, const Vector4D& viewVector) const

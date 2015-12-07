@@ -6,6 +6,7 @@
 
 #include "I_Object.h"
 #include "IntersectionMatch.h"
+#include "Material.h"
 #include "PhongCalculator.h"
 #include "Ray.h"
 #include "RayTracer.h"
@@ -13,7 +14,7 @@
 
 namespace
 {
-    const Color BACKGROUND_COLOR = Color(0.2, 0.2, 0.2);
+    const Color BACKGROUND_COLOR = Color(0.0, 0.0, 0.0);
     const int MAX_DEPTH = 3;
     const int NUMBER_OF_THREADS = 4;
 }
@@ -86,7 +87,7 @@ Color RayTracer::trace(const Ray& ray, int depth) const
 
     const Point3D intersectPoint = ray.pointAlongRay(match.t());
     Color localColor =  phongCalculator_->calculate(intersectPoint, *match.object(), ray.startPoint());
-    Color reflectedColor = trace(reflectionRay(ray, *match.object(), intersectPoint), depth + 1);
+    Color reflectedColor = 1.0 / match.object()->material().shininess() * trace(reflectionRay(ray, *match.object(), intersectPoint), depth + 1);
     return localColor + reflectedColor;
 }
 

@@ -13,8 +13,10 @@ DESTDIR = ../build
 TARGET = assignment4
 
 settings.path = ../build
-settings.files = sceneSpecificationRc
-INSTALLS += settings
+settings.files = sceneSpecificationRc*
+models.path = ../build
+models.files = ../models/*
+INSTALLS += settings models
 
 OBJECTS_DIR = ../.tmp/.obj
 MOC_DIR = ../.tmp/.moc

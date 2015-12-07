@@ -7,8 +7,8 @@
 filename=output.png
 
 [Dimensions]
-width=1920
-height=1080
+width=3840
+height=2160
 
 ; Currently the viewport is locked to being centered around x, y. Orthgonal to Z plane
 [Viewport]
@@ -134,7 +134,6 @@ objects/6/center/z=7
 objects/6/xRotation=0
 objects/6/yRotation=180
 objects/6/zRotation=0
-
 objects/6/maxDimension=3.0
 
 
